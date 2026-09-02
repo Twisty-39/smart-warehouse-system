@@ -190,6 +190,27 @@ stateDiagram-v2
     CANCELLED --> [*]
 ```
 
+### 3.5. Alur Pemulihan Kata Sandi dengan 6-Digit OTP (OTP Password Reset Flow)
+
+```mermaid
+flowchart TD
+    ReqStart([Pengguna Lupa Kata Sandi]) --> InputEmail[Input Alamat Email Terdaftar]
+    InputEmail --> CallForgotAPI[Kirim POST /api/auth/forgot-password]
+    CallForgotAPI --> CheckUser{Email Terdaftar di DB?}
+    CheckUser -- Tidak --> Ret404[Kembalikan Pesan: Akun Tidak Ditemukan]
+    CheckUser -- Ya --> GenOTP[Generate 6-Digit Kriptografis OTP & Simpan Hash]
+    GenOTP --> SetExpiry[Set Waktu Kedaluwarsa: 5 Menit]
+    SetExpiry --> NavReset[Arahkan ke Halaman /reset-password]
+    NavReset --> RenderPIN[Tampilkan 6 Kotak Input PIN OTP Kosong]
+    RenderPIN --> FillOTP[User Input/Paste 6 Digit OTP & Kata Sandi Baru]
+    FillOTP --> SubmitReset[Kirim POST /api/auth/reset-password]
+    SubmitReset --> VerifyOTP{OTP Cocok & Belum Kedaluwarsa?}
+    VerifyOTP -- Tidak --> ShowOTPError[Tampilkan Notifikasi Error OTP] --> RenderPIN
+    VerifyOTP -- Ya --> HashPassword[Enkripsi Password Baru dengan BCrypt]
+    HashPassword --> ClearToken[Hapus Token OTP dari DB]
+    ClearToken --> SuccessLogin[Redirect ke /login dengan Toast Sukses]
+```
+
 ---
 
 ## 4. Arsitektur Keamanan (Security Architecture)

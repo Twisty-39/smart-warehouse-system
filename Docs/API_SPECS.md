@@ -160,23 +160,57 @@ Memperbarui Access Token yang telah kadaluarsa menggunakan Refresh Token.
   ```
 
 #### `POST /api/auth/forgot-password`
-Mengirim instruksi reset password.
+Menghasilkan kode 6-Digit OTP kriptografis dengan masa berlaku 5 menit untuk pemulihan kata sandi.
 - **Wewenang**: Public
 - **Request Body**:
   ```json
   {
-    "email": "user@smartwarehouse.com"
+    "email": "admin@smartwarehouse.com"
+  }
+  ```
+- **Response 200 OK**:
+  ```json
+  {
+    "success": true,
+    "statusCode": 200,
+    "message": "Kode OTP berhasil dikirimkan.",
+    "data": {
+      "otpCode": "849201",
+      "expiryMinutes": 5
+    }
+  }
+  ```
+
+#### `POST /api/auth/resend-otp`
+Membuat dan mengirimkan kode OTP 6 digit baru jika waktu tunggu telah habis.
+- **Wewenang**: Public
+- **Request Body**:
+  ```json
+  {
+    "email": "admin@smartwarehouse.com"
+  }
+  ```
+
+#### `POST /api/auth/verify-otp`
+Memvalidasi kecocokan 6-digit OTP sebelum mengatur ulang kata sandi.
+- **Wewenang**: Public
+- **Request Body**:
+  ```json
+  {
+    "email": "admin@smartwarehouse.com",
+    "otpCode": "849201"
   }
   ```
 
 #### `POST /api/auth/reset-password`
-Mereset kata sandi dengan token konfirmasi.
+Mereset kata sandi baru menggunakan verifikasi kode 6-Digit OTP.
 - **Wewenang**: Public
 - **Request Body**:
   ```json
   {
-    "email": "user@smartwarehouse.com",
-    "token": "reset-token-xyz",
+    "email": "admin@smartwarehouse.com",
+    "otpCode": "849201",
+    "token": "849201",
     "newPassword": "NewPassword123!",
     "confirmNewPassword": "NewPassword123!"
   }

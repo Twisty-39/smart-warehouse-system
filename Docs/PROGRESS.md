@@ -18,7 +18,7 @@ Lembar pelacak progres implementasi **Smart Warehouse & Inventory Management Sys
 - [x] `Docs/CONTEXT.md` — Latar belakang, problem statement, RBAC matrix, matriks kepatuhan S1.
 - [x] `Docs/SCHEMA.md` — Kamus data 3NF, diagram ERD Mermaid, relasi 1:1, 1:N, N:1, M:N, 3 tabel soft delete, timestamps, rancangan 20+ seed per tabel.
 - [x] `Docs/API_SPECS.md` — Kontrak REST API, response envelope, query parameters, daftar lengkap endpoint.
-- [x] `Docs/ARCHITECTURE.md` — Arsitektur monorepo, pola C# Clean Layered, 4 diagram flowchart Mermaid, kebijakan keamanan.
+- [x] `Docs/ARCHITECTURE.md` — Arsitektur monorepo, pola C# Clean Layered, 5 diagram flowchart Mermaid (Auth, Inbound, Transfer, PO Lifecycle, 6-Digit OTP Reset), kebijakan keamanan.
 - [x] `Docs/PLANNING.md` — Roadmap 5 fase, timeline Gantt, deliverables, matriks manajemen risiko.
 - [x] `Docs/PROGRESS.md` — Lembar pelacak progres interaktif.
 
@@ -42,29 +42,29 @@ Lembar pelacak progres implementasi **Smart Warehouse & Inventory Management Sys
   - [x] Registrasi pengguna baru.
   - [x] Login & penerbitan token JWT + Refresh Token.
   - [x] Enkripsi password menggunakan BCrypt.
-  - [x] Lupa Password & Reset Password endpoint.
+  - [x] Sistem 6-Digit OTP Kriptografis (Forgot, Resend, Verify, Reset Password).
   - [x] Endpoint `/api/auth/me`.
 - [x] Modul REST API & Controllers:
-  - [x] `DashboardController` (Ringkasan KPI, tren bulanan, aktivitas terbaru).
-  - [x] `ProductsController` (CRUD, filter, search, sort, pagination, upload gambar, soft delete).
+  - [x] `DashboardController` (Ringkasan KPI, tren bulanan 3/6/12M, aktivitas terbaru, switch mata uang).
+  - [x] `ProductsController` (CRUD, filter, search, sort, pagination, upload gambar, soft delete, export excel).
   - [x] `CategoriesController` (CRUD kategori master).
-  - [x] `WarehousesController` (CRUD gudang, utilisasi kapasitas, soft delete).
-  - [x] `SuppliersController` (CRUD vendor pemasok, rating, soft delete).
-  - [x] `InventoryController` (Monitoring stok, penyesuaian/adjustment, transfer antar gudang).
-  - [x] `StockTransactionsController` (Inbound, Outbound, Transfer log audit).
-  - [x] `PurchaseOrdersController` (Pembuatan PO multi-item, alur status, upload invoice PDF).
+  - [x] `WarehousesController` (CRUD gudang, utilisasi kapasitas, soft delete, export excel).
+  - [x] `SuppliersController` (CRUD vendor pemasok, rating, soft delete, export excel).
+  - [x] `InventoryController` (Monitoring stok, penyesuaian/adjustment, transfer antar gudang, export excel).
+  - [x] `StockTransactionsController` (Inbound, Outbound, Transfer log audit, export excel).
+  - [x] `PurchaseOrdersController` (Pembuatan PO multi-item, alur status, upload invoice PDF, auto-inbound receiving, export excel).
   - [x] `UsersController` (Manajemen pengguna & penetapan role RBAC).
   - [x] `UploadsController` (Unggah file gambar produk & PDF dokumen).
 - [x] Validasi sisi server menggunakan FluentValidation untuk seluruh request POST/PUT.
 
 ### 2.4. Frontend React + TypeScript + Vite (`frontend/`)
 - [x] Inisialisasi Vite + React + TypeScript dengan struktur modular.
-- [x] Desain antarmuka responsif (Mobile ≤768px, Tablet 769–1024px, Desktop >1024px) dengan tema modern dan glassmorphism.
+- [x] Desain antarmuka responsif (Mobile ≤768px, Tablet 769–1024px, Desktop >1024px) dengan tema Bento Flat Design System (`#2C2424` & `#FAF7EE`).
 - [x] Autentikasi & Routing:
   - [x] `AuthContext` (State management JWT, persistensi sesi, auto logout).
   - [x] Client-Side Routing dengan `react-router-dom`.
   - [x] Protected Route & Role-Based Guard.
-  - [x] Halaman Login, Register, Forgot Password, dan Reset Password.
+  - [x] Halaman Login, Register, Forgot Password, dan Reset Password dengan 6-Digit PIN input boxes.
   - [x] Halaman Error: 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Server Error.
 - [x] Dasbor Analitik Real-time:
   - [x] Kartu ringkasan KPI (Total Aset, Stok Menipis, Transaksi Masuk/Keluar, Gudang).
