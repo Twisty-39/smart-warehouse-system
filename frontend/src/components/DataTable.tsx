@@ -124,7 +124,7 @@ export function DataTable<T extends { id?: number | string }>({
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '1rem',
+            gap: '0.75rem',
             justifyContent: 'space-between',
             alignItems: 'center'
           }}
@@ -132,11 +132,13 @@ export function DataTable<T extends { id?: number | string }>({
           {/* Kotak Pencarian */}
           {onSearchChange && (
             <div
+              className="datatable-search-wrapper"
               style={{
                 position: 'relative',
-                minWidth: '280px',
-                flex: '1 1 320px',
-                maxWidth: '500px'
+                minWidth: '0',
+                flex: '1 1 240px',
+                maxWidth: '500px',
+                width: '100%'
               }}
             >
               <Search
@@ -164,7 +166,10 @@ export function DataTable<T extends { id?: number | string }>({
           )}
 
           {/* Tombol Export Excel & Aksi Tambahan */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <div
+            className="datatable-actions-group"
+            style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}
+          >
             <button
               type="button"
               className="btn btn-secondary btn-sm"
@@ -186,7 +191,7 @@ export function DataTable<T extends { id?: number | string }>({
               <span>Export ke Excel</span>
             </button>
 
-            {actions && <div>{actions}</div>}
+            {actions && <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>{actions}</div>}
           </div>
         </div>
 
@@ -197,7 +202,7 @@ export function DataTable<T extends { id?: number | string }>({
               display: 'flex',
               flexWrap: 'wrap',
               alignItems: 'center',
-              gap: '0.875rem',
+              gap: '0.75rem',
               paddingTop: '0.75rem',
               borderTop: '1px solid #EFE8D6'
             }}
@@ -208,7 +213,7 @@ export function DataTable<T extends { id?: number | string }>({
             </div>
 
             {filters.map((f) => (
-              <div key={f.key} style={{ minWidth: '160px', flex: '0 1 auto' }}>
+              <div key={f.key} className="datatable-filter-item" style={{ minWidth: '140px', flex: '1 1 auto' }}>
                 <select
                   className="form-select"
                   value={f.value}
@@ -220,7 +225,8 @@ export function DataTable<T extends { id?: number | string }>({
                     backgroundColor: f.value !== '' && f.value !== 0 ? 'var(--palette-sky)' : '#FFFFFF',
                     border: '1.5px solid #2C2424',
                     borderRadius: '8px',
-                    padding: '0 10px'
+                    padding: '0 10px',
+                    width: '100%'
                   }}
                 >
                   <option value="">{f.label}: Semua</option>
@@ -325,6 +331,7 @@ export function DataTable<T extends { id?: number | string }>({
       {/* Pagination Footer */}
       {meta && (
         <div
+          className="datatable-pagination-footer"
           style={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -335,14 +342,17 @@ export function DataTable<T extends { id?: number | string }>({
           }}
         >
           {/* Info Jumlah Data & Pilihan Limit */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+          <div
+            className="datatable-pagination-info"
+            style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}
+          >
             <span>
               Menampilkan <strong>{data.length}</strong> dari total <strong>{meta.totalCount}</strong> baris data
             </span>
 
             {onPageSizeChange && (
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span>Baris per halaman:</span>
+                <span>Baris:</span>
                 <select
                   className="form-select"
                   value={meta.pageSize}
@@ -359,7 +369,10 @@ export function DataTable<T extends { id?: number | string }>({
           </div>
 
           {/* Tombol Halaman Prev / Next */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div
+            className="datatable-pagination-controls"
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => onPageChange && onPageChange(meta.currentPage - 1)}

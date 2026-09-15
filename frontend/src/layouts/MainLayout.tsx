@@ -59,7 +59,7 @@ export const MainLayout: React.FC = () => {
           onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
         />
 
-        <main style={{ flex: 1, padding: '1.5rem', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
+        <main className="main-layout-content">
           <div ref={contentRef}>
             <Outlet />
           </div>
@@ -67,10 +67,10 @@ export const MainLayout: React.FC = () => {
 
         <footer
           style={{
-            padding: '1.25rem 1.5rem',
+            padding: '1rem 0.75rem',
             borderTop: 'var(--border-flat)',
             textAlign: 'center',
-            fontSize: '0.875rem',
+            fontSize: '0.8125rem',
             fontWeight: 600,
             color: 'var(--text-secondary)',
             backgroundColor: 'var(--palette-cream)'

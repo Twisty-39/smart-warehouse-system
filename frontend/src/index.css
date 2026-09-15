@@ -58,7 +58,18 @@ body {
   font-size: 15px;
   line-height: 1.5;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -440,4 +451,218 @@ h1, h2, h3, h4, h5, h6 {
 .badge-neutral {
   background-color: #E2E8F0;
   color: #334155;
+}
+
+/* ==========================================================================
+   MOBILE & RESPONSIVE DESIGN SYSTEM (Smartphones <= 768px & <= 480px)
+   ========================================================================== */
+
+/* Main Layout Content Padding */
+.main-layout-content {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Responsive Navbar Utility Classes */
+.navbar-header {
+  height: var(--navbar-height);
+  background-color: var(--palette-cream);
+  border-bottom: var(--border-flat);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.navbar-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.navbar-user-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background-color 0.15s;
+}
+
+/* Form Grids Helper Classes */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* Media Query: Tablets and Mobile Devices (<= 768px) */
+@media (max-width: 768px) {
+  .main-layout-content {
+    padding: 1rem 0.875rem;
+  }
+
+  .navbar-header {
+    padding: 0 0.875rem;
+  }
+
+  .navbar-date {
+    display: none !important;
+  }
+
+  .bento-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .bento-card {
+    padding: 1.25rem 1rem;
+  }
+}
+
+/* Media Query: Mobile Phones (<= 640px) */
+@media (max-width: 640px) {
+  /* Navbar elements reduction */
+  .navbar-role {
+    display: none !important;
+  }
+
+  .navbar-user-name {
+    display: none !important;
+  }
+
+  .navbar-menu-text {
+    display: none !important;
+  }
+
+  .navbar-logout-text {
+    display: none !important;
+  }
+
+  .navbar-user-link {
+    padding: 2px !important;
+  }
+
+  /* Form & Modal Multi-column grids: collapse cleanly to 1 column */
+  .form-grid-2,
+  .form-grid-3,
+  .responsive-grid-2,
+  .responsive-grid-3,
+  form div[style*="gridTemplateColumns"],
+  form div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* DataTable Toolbar & Pagination on Mobile */
+  .datatable-search-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .datatable-actions-group {
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+
+  .datatable-actions-group > * {
+    flex: 1 1 auto;
+  }
+
+  .datatable-filter-item {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .datatable-pagination-footer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .datatable-pagination-info {
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    font-size: 0.8125rem !important;
+  }
+
+  .datatable-pagination-controls {
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  /* Table container smooth touch scrolling */
+  .table-container {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-container::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  /* Modal Dialog sizing on mobile */
+  .modal-overlay {
+    padding: 0.5rem !important;
+  }
+
+  .modal-box {
+    max-height: 94vh !important;
+    border-radius: 12px !important;
+  }
+
+  .modal-body {
+    padding: 1rem 0.875rem !important;
+  }
+
+  .modal-footer {
+    padding: 0.75rem 0.875rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .modal-footer .btn {
+    flex: 1 1 auto;
+    min-width: 100px;
+  }
+}
+
+/* Media Query: Compact Mobile Phones (<= 480px) */
+@media (max-width: 480px) {
+  .main-layout-content {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .bento-card {
+    padding: 1rem 0.875rem;
+    border-radius: 12px;
+  }
+
+  /* Auth Card Padding */
+  .auth-card-wrapper {
+    padding: 1.25rem 1rem !important;
+  }
+
+  /* Buttons on small mobile */
+  .btn-mobile-full {
+    width: 100% !important;
+  }
 }

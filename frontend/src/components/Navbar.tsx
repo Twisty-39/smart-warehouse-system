@@ -30,22 +30,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen =
 
   return (
     <>
-      <header
-        style={{
-          height: 'var(--navbar-height)',
-          backgroundColor: 'var(--palette-cream)',
-          borderBottom: 'var(--border-flat)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 1.5rem',
-          position: 'sticky',
-          top: 0,
-          zIndex: 30
-        }}
-      >
+      <header className="navbar-header">
         {/* Kiri: Toggle Menu & Tanggal */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <button
             onClick={onToggleSidebar}
             className="btn btn-secondary btn-sm"
@@ -56,48 +43,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen =
               backgroundColor: isSidebarOpen ? 'var(--palette-sky)' : '#FFFFFF',
               fontWeight: 800,
               borderColor: '#2C2424',
-              boxShadow: '0 2px 0 #2C2424'
+              boxShadow: '0 2px 0 #2C2424',
+              padding: '0.375rem 0.625rem'
             }}
             title={isSidebarOpen ? 'Sembunyikan Sidebar Navigasi' : 'Tampilkan Sidebar Navigasi'}
           >
             <Menu size={18} />
-            <span>Menu</span>
+            <span className="navbar-menu-text">Menu</span>
           </button>
 
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              color: 'var(--text-main)',
-              fontSize: '0.875rem',
-              fontWeight: 600
-            }}
-          >
+          <div className="navbar-date">
             <Calendar size={16} color="var(--palette-rosewood)" />
             <span>{today}</span>
           </div>
         </div>
 
         {/* Kanan: Role Badge, Info Pengguna & Logout */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {user && <StatusBadge status={user.role} type="role" />}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div className="navbar-role">
+            {user && <StatusBadge status={user.role} type="role" />}
+          </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Link
               to="/profile"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                textDecoration: 'none',
-                color: 'var(--text-main)',
-                fontWeight: 700,
-                fontSize: '0.9375rem',
-                padding: '4px 8px',
-                borderRadius: '8px',
-                transition: 'background-color 0.15s'
-              }}
+              className="navbar-user-link"
               title="Buka Pengaturan Profil Akun"
             >
               <img
@@ -116,7 +86,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen =
                   (e.currentTarget as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.fullName || 'U')}&background=946D6D&color=fff&bold=true`;
                 }}
               />
-              <span style={{ color: 'var(--text-main)' }}>{user?.fullName || 'Pengguna'}</span>
+              <span className="navbar-user-name" style={{ color: 'var(--text-main)' }}>
+                {user?.fullName || 'Pengguna'}
+              </span>
             </Link>
 
             {/* Tombol Keluar memicu Modal Konfirmasi */}
@@ -124,11 +96,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen =
               type="button"
               onClick={() => setShowLogoutModal(true)}
               className="btn btn-rosewood btn-sm"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '0.375rem 0.625rem' }}
               title="Keluar dari sesi akun"
             >
               <LogOut size={16} />
-              <span>Keluar</span>
+              <span className="navbar-logout-text">Keluar</span>
             </button>
           </div>
         </div>

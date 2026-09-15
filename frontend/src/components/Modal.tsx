@@ -41,6 +41,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   const modalContent = (
     <div
+      className="modal-overlay"
       style={{
         position: 'fixed',
         inset: 0,
@@ -57,6 +58,7 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <div
         ref={modalBoxRef}
+        className="modal-box"
         style={{
           backgroundColor: '#FFFFFF',
           border: '2px solid #2C2424',
@@ -109,13 +111,14 @@ export const Modal: React.FC<ModalProps> = ({
         </div>
 
         {/* Isi Form / Konten Modal */}
-        <div style={{ padding: '1.25rem 1.5rem', overflowY: 'auto', flex: 1, backgroundColor: '#FFFFFF' }}>
+        <div className="modal-body" style={{ padding: '1.25rem 1.5rem', overflowY: 'auto', flex: 1, backgroundColor: '#FFFFFF' }}>
           {children}
         </div>
 
         {/* Tombol Aksi Bawah */}
         {footer && (
           <div
+            className="modal-footer"
             style={{
               padding: '1rem 1.25rem',
               borderTop: '1.5px solid #2C2424',

@@ -334,21 +334,21 @@ export const DashboardPage: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Header Halaman */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ fontSize: '1.625rem', fontWeight: 800, color: 'var(--text-main)', margin: 0 }}>
+          <h1 style={{ fontSize: 'clamp(1.25rem, 4vw, 1.625rem)', fontWeight: 800, color: 'var(--text-main)', margin: 0 }}>
             Dasbor Manajemen Gudang
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', marginTop: '4px', margin: 0, fontWeight: 500 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: '4px', margin: 0, fontWeight: 500 }}>
             Ringkasan status stok, pergerakan inventaris, dan audit mutasi barang terkini.
           </p>
         </div>
 
         <button
-          className="btn btn-cream"
+          className="btn btn-cream btn-sm"
           onClick={() => fetchDashboardData(true)}
           disabled={isLoading}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', minHeight: '38px' }}
           title="Sinkronisasi ulang seluruh data dari database"
         >
           <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
@@ -363,7 +363,7 @@ export const DashboardPage: React.FC = () => {
         {/* Bento 1: Hero Asset & Total Stok (Span 8 - Cream #FDF4D2) */}
         <div className="bento-card bento-card-cream col-span-8">
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', flexWrap: 'wrap' }}>
               <div>
                 <span className="badge badge-rosewood" style={{ marginBottom: '0.5rem' }}>
                   Aset & Saldo Inventaris
@@ -373,16 +373,16 @@ export const DashboardPage: React.FC = () => {
                 </div>
                 <h2
                   ref={totalStockValueRef}
-                  style={{ fontSize: '2.125rem', fontWeight: 900, marginTop: '6px', color: 'var(--text-main)', letterSpacing: '-0.02em' }}
+                  style={{ fontSize: 'clamp(1.5rem, 5vw, 2.125rem)', fontWeight: 900, marginTop: '6px', color: 'var(--text-main)', letterSpacing: '-0.02em' }}
                 >
                   {formatMoney(summary?.totalStockValue || 0)}
                 </h2>
 
                 {/* Info Kurs Real-time */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, flexWrap: 'wrap' }}>
                   <Globe size={13} color="var(--palette-rosewood)" />
                   <span>
-                    Kurs Acuan: <strong>1 USD = Rp {exchangeRate.rate.toLocaleString('id-ID')}</strong>
+                    Kurs: <strong>1 USD = Rp {exchangeRate.rate.toLocaleString('id-ID')}</strong>
                   </span>
                 </div>
               </div>
@@ -396,16 +396,17 @@ export const DashboardPage: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '8px 14px',
+                  padding: '6px 12px',
                   backgroundColor: currency === 'USD' ? 'var(--palette-sky)' : '#FFFFFF',
                   borderColor: '#2C2424',
-                  boxShadow: '0 3px 0 #2C2424',
+                  boxShadow: '0 2px 0 #2C2424',
                   cursor: 'pointer',
-                  fontWeight: 800
+                  fontWeight: 800,
+                  fontSize: '0.8125rem'
                 }}
                 title="Klik untuk mengubah tampilan mata uang (IDR ⇄ USD)"
               >
-                <Coins size={18} color="var(--palette-rosewood)" />
+                <Coins size={16} color="var(--palette-rosewood)" />
                 <span>Mata Uang: <strong>{currency === 'IDR' ? 'IDR (Rp)' : 'USD ($)'}</strong></span>
               </button>
             </div>
@@ -413,8 +414,8 @@ export const DashboardPage: React.FC = () => {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-                gap: '1rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                gap: '0.75rem',
                 marginTop: '1.25rem',
                 paddingTop: '1rem',
                 borderTop: '1.5px dashed #2C2424'
