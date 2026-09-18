@@ -1,14 +1,32 @@
 # 🏢 InvWare — Smart Warehouse & Inventory Management System (SWIMS)
 
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-70.153.139.90-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](http://70.153.139.90)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512bd4.svg?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 [![React](https://img.shields.io/badge/React-19-61dafb.svg?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.x-646CFF.svg?style=for-the-badge&logo=vite)](https://vitejs.dev/)
-[![SQL Server](https://img.shields.io/badge/SQL%20Server-SSMS%20Compatible-cc292b.svg?style=for-the-badge&logo=microsoftsqlserver)](https://www.microsoft.com/sql-server/)
-[![Design System](https://img.shields.io/badge/UI%2FUX-Bento%20Flat%20System-946D6D.svg?style=for-the-badge)]()
-[![Status](https://img.shields.io/badge/Status-Production%20Ready-success.svg?style=for-the-badge)]()
+[![SQL Server](https://img.shields.io/badge/SQL%20Server-2022%20Linux%20Container-cc292b.svg?style=for-the-badge&logo=microsoftsqlserver)](https://www.microsoft.com/sql-server/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg?style=for-the-badge&logo=docker)](https://www.docker.com/)
+[![Status](https://img.shields.io/badge/Status-Live%20on%20Azure%20VM-success.svg?style=for-the-badge)]()
 
 > **Projekan S1 Portofolio**: Sistem Informasi Manajemen Pergudangan & Rantai Pasok Terintegrasi Skala Enterprise Berbasis Fullstack Monorepo (**C# ASP.NET Core Web API + Microsoft SQL Server + React TypeScript Vite**).
+
+---
+
+## 🌐 Akses Live Demo (Cloud Deployment)
+
+Sistem InvWare telah di-deploy dan aktif secara publik di **Microsoft Azure Virtual Machine (Ubuntu 24.04 LTS)** menggunakan arsitektur **Docker Compose**:
+
+### 🔗 URL Aplikasi: **[http://70.153.139.90](http://70.153.139.90)**
+
+*(Tersedia tombol **"Pilih Akun Demo" (1-Klik)** langsung pada halaman Login untuk pengujian cepat)*:
+
+| Role Pengguna | Email Akun Demo | Kata Sandi (Password) | Cakupan Hak Akses |
+|---|---|---|---|
+| **Super Admin** | `admin@smartwarehouse.com` | `Password123!` | Akses absolut semua modul, master data SKU, user & konfigurasi sistem |
+| **Warehouse Manager** | `manager.jkt@smartwarehouse.com` | `Password123!` | Persetujuan Purchase Order, Mutasi Antar Gudang, Stock Opname, Audit |
+| **Inventory Staff** | `staff.jkt1@smartwarehouse.com` | `Password123!` | Pencatatan Inbound/Outbound, Monitoring Rak Fisik, Cetak Label |
+| **Purchasing Officer** | `purchasing.lead@smartwarehouse.com` | `Password123!` | Pembuatan Draft PO Pengadaan & Tata Kelola Direktori Pemasok (Vendor) |
 
 ---
 
