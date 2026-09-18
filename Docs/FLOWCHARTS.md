@@ -22,6 +22,7 @@ Semua diagram dibuat menggunakan sintaks resmi **Mermaid.js** (`flowchart TD`) d
 ---
 
 ## DAFTAR ISI FLOWCHART
+0. [FLOWCHART MASTER SISTEM TERINTEGRASI (UNIFIED END-TO-END)](#0-flowchart-master-sistem-terintegrasi-unified-end-to-end) ⭐ **(Satu Kesatuan Utuh)**
 1. [Flowchart 1: Alur Autentikasi Pengguna & Hak Akses (Login & RBAC)](#1-alur-autentikasi-pengguna--hak-akses-login--rbac)
 2. [Flowchart 2: Alur Pemulihan Kata Sandi dengan 6-Digit OTP](#2-alur-pemulihan-kata-sandi-dengan-6-digit-otp)
 3. [Flowchart 3: Alur Manajemen Master Produk & Validasi Kode SKU](#3-alur-manajemen-master-produk--validasi-kode-sku)
@@ -31,6 +32,158 @@ Semua diagram dibuat menggunakan sintaks resmi **Mermaid.js** (`flowchart TD`) d
 7. [Flowchart 7: Alur Transfer Stok Antar Fasilitas Gudang (Inter-Warehouse Transfer)](#7-alur-transfer-stok-antar-fasilitas-gudang-inter-warehouse-transfer)
 8. [Flowchart 8: Alur Stock Opname & Penyesuaian Selisih Inventaris (Stock Adjustment)](#8-alur-stock-opname--penyesuaian-selisih-inventaris-stock-adjustment)
 9. [Flowchart 9: Alur Arsitektur End-to-End Request/Response Sistem](#9-alur-arsitektur-end-to-end-requestresponse-sistem)
+
+---
+
+## 0. FLOWCHART MASTER SISTEM TERINTEGRASI (UNIFIED END-TO-END)
+> **Satu Kesatuan Utuh**: Diagram ini merangkum seluruh operasional sistem dari `Start ([Mulai])` login & autentikasi, pemilihan menu operasional, siklus PO, barang masuk (Inbound), barang keluar (Outbound), transfer antar fasilitas, stock opname, hingga `End ([Selesai])` penutupan sesi. Berkas mandiri dapat diakses di: [`Docs/flowcharts/master_system_flowchart.mmd`](file:///d:/FAJAR%20SIDIK/Portofolio/Smart%20Warehouse%20&%20Inventory%20Management%20System/Docs/flowcharts/master_system_flowchart.mmd).
+
+```mermaid
+flowchart TD
+    Start([Mulai: Pengguna Membuka Sistem InvWare]) --> CheckToken{Memiliki Token JWT Valid?}
+
+    %% 1. AUTENTIKASI
+    subgraph SUB_AUTH ["1. Alur Autentikasi & Pemulihan Akun"]
+        CheckToken -- Tidak / Kadaluwarsa --> ViewLogin[/Tampilkan Halaman Login/]
+        ViewLogin --> ActionAuthChoice{Pilihan Tindakan Pengguna}
+        
+        %% Lupa Sandi
+        ActionAuthChoice -- Lupa Kata Sandi --> InputForgotEmail[/Input Alamat Email Terdaftar/]
+        InputForgotEmail --> CheckEmailDB{Email Terdaftar di DB?}
+        CheckEmailDB -- Tidak --> ShowEmailErr[/Peringatan: Email Tidak Ditemukan/] --> InputForgotEmail
+        CheckEmailDB -- Ya --> GenOTP[Sistem Generate 6-Digit Kriptografis OTP & Masa Berlaku 5 Menit]
+        GenOTP --> SendEmailOTP[/Kirim Kode OTP ke Email Pengguna/]
+        SendEmailOTP --> ViewOTPPage[/Tampilkan 6 Kotak Input PIN OTP/]
+        ViewOTPPage --> InputOTPAndNewPass[/Input 6 Digit OTP & Kata Sandi Baru/]
+        InputOTPAndNewPass --> VerifyOTP{OTP Cocok & Belum Expired?}
+        VerifyOTP -- Tidak --> ShowOTPErr[/Error: Kode OTP Salah / Kedaluwarsa/] --> ViewOTPPage
+        VerifyOTP -- Ya --> HashNewPassword[Enkripsi Password Baru dengan BCrypt]
+        HashNewPassword --> UpdatePassDB[(Update PasswordHash di Database Users)]
+        UpdatePassDB --> ShowPassSuccess[/Notifikasi: Sandi Berhasil Diperbarui/] --> ViewLogin
+
+        %% Login
+        ActionAuthChoice -- Masuk Akun --> InputCreds[/Masukkan Email & Kata Sandi/]
+        InputCreds --> SubmitLogin[Klik Tombol 'Masuk Sekarang']
+        SubmitLogin --> CheckCreds{Kredensial & Status Akun Aktif?}
+        CheckCreds -- Tidak Valid --> ShowLoginErr[/Error: Email atau Kata Sandi Salah/] --> ViewLogin
+        CheckCreds -- Valid --> IssueJWT[Terbitkan JWT Token Berisi Claims Role Pengguna]
+        IssueJWT --> SaveSession[/Simpan JWT Token di LocalStorage Browser/]
+    end
+
+    CheckToken -- Ya Valid --> LoadProfile[Ambil Data Profil & Hak Akses Peran]
+    SaveSession --> LoadProfile
+
+    %% 2. DASBOR & MENU
+    subgraph SUB_DASHBOARD ["2. Dasbor Utama & Navigasi Operasional"]
+        LoadProfile --> RenderDashboard[/Tampilkan Dasbor: KPI Aset Stok, Peringatan Level Reorder, & Grafik Mutasi/]
+        RenderDashboard --> ChooseMenu{Pilih Menu Operasional}
+    end
+
+    %% 3. MASTER PRODUK
+    subgraph SUB_PRODUCT ["3. Manajemen Master Produk"]
+        ChooseMenu -- Katalog Produk --> ViewProductList[/Tampilkan Tabel Katalog Produk/]
+        ViewProductList --> ProductActionChoice{Aksi Produk}
+        ProductActionChoice -- Tambah Produk Baru --> OpenProductModal[/Tampilkan Form Tambah Produk/]
+        OpenProductModal --> FillProductData[/Isi SKU, Barcode, Nama, Kategori, Harga & Min-Max Stock/]
+        FillProductData --> CheckSKUUniq{SKU & Barcode Belum Pernah Ada di DB?}
+        CheckSKUUniq -- Duplikat --> ShowSKUErr[/Error: SKU atau Barcode Sudah Digunakan!/] --> FillProductData
+        CheckSKUUniq -- Unik --> SaveProductDB[(Simpan Produk Baru ke Tabel Products)]
+        SaveProductDB --> InitStockZero[(Inisialisasi Record InventoryStocks dengan Saldo Awal 0)]
+        InitStockZero --> ProductDone[Tutup Modal & Refresh Tabel Produk]
+        ProductActionChoice -- Lihat / Cari / Export Excel --> ExportOrSearch[Pencarian SKU / Ekspor Berkas .xlsx] --> ProductDone
+    end
+
+    %% 4. PURCHASE ORDER
+    subgraph SUB_PO ["4. Pengadaan Barang / Purchase Order (PO)"]
+        ChooseMenu -- Pesanan Pembelian --> ViewPOList[/Tampilkan Daftar Purchase Order/]
+        ViewPOList --> POActionChoice{Aksi Pengadaan PO}
+        POActionChoice -- Buat PO Baru --> OpenPOForm[/Form PO: Pilih Vendor Pemasok & Daftar Barang Dipesan/]
+        OpenPOForm --> SavePOChoice{Simpan Sebagai?}
+        SavePOChoice -- Simpan Draf --> SaveDraftDB[(Simpan ke PurchaseOrders Status: DRAFT)] --> PODone[Selesai Pembuatan PO]
+        SavePOChoice -- Ajukan Persetujuan --> SubmitPODB[(Simpan ke PurchaseOrders Status: SUBMITTED)]
+        SubmitPODB --> ManagerReviewPO[Manajer Gudang Meninjau Dokumen PO]
+        ManagerReviewPO --> ManagerPOCheck{Evaluasi Manajer Gudang}
+        ManagerPOCheck -- Tolak Pesanan --> RejectPODB[(Ubah Status PO Menjadi: REJECTED)] --> PODone
+        ManagerPOCheck -- Setujui Pesanan --> ApprovePODB[(Ubah Status PO Menjadi: APPROVED)]
+        ApprovePODB --> SendPOToSupplier[/Kirim Dokumen PO Resmi ke Mitra Pemasok/] --> AwaitDelivery[Menunggu Pengiriman Fisik dari Vendor] --> PODone
+    end
+
+    %% 5. INBOUND
+    subgraph SUB_INBOUND ["5. Penerimaan Barang Masuk (Inbound Receiving)"]
+        ChooseMenu -- Penerimaan Inbound --> OpenInboundList[/Buka Daftar PO Siap Diterima/]
+        OpenInboundList --> SelectApprovedPO[/Pilih PO dengan Status APPROVED/]
+        SelectApprovedPO --> InspectPhysical[Pemeriksaan Fisik Kuantitas & Kondisi Barang di Loading Dock]
+        InspectPhysical --> UploadSuratJalan[/Unggah Foto Bukti Surat Jalan / Faktur/]
+        UploadSuratJalan --> SelectTargetRack[/Tentukan Gudang & Lokasi Rak/Bin Penyimpanan/]
+        SelectTargetRack --> ConfirmInboundSubmit[Klik Konfirmasi Penerimaan Barang Masuk]
+        ConfirmInboundSubmit --> InboundDBTrx[Mulai Database Transaction ACID]
+        InboundDBTrx --> AddStockOnHand[(Tambahkan Nilai QuantityOnHand di InventoryStocks)]
+        AddStockOnHand --> LogInboundTrx[(Insert Record Baru di StockTransactions: Tipe INBOUND)]
+        LogInboundTrx --> ClosePOStatus[(Ubah Status PurchaseOrders Menjadi: RECEIVED)]
+        ClosePOStatus --> CommitInbound[Commit Transaksi Inbound ke Database]
+    end
+
+    %% 6. OUTBOUND
+    subgraph SUB_OUTBOUND ["6. Pengeluaran Barang (Outbound Fulfillment)"]
+        ChooseMenu -- Pengeluaran Outbound --> OpenOutboundForm[/Form Outbound: Pilih Gudang, Produk & Kuantitas/]
+        OpenOutboundForm --> CheckStockAvail{Saldo Available Stock >= Kuantitas yang Diminta?}
+        CheckStockAvail -- Tidak Cukup --> ShowStockDeficit[/Error: Saldo Stok Gudang Tidak Mencukupi!/] --> OpenOutboundForm
+        CheckStockAvail -- Cukup --> InputDispatchRef[/Input Nomor Perintah Jalan & Keterangan Pengeluaran/]
+        InputDispatchRef --> OutboundDBTrx[Mulai Database Transaction]
+        OutboundDBTrx --> DeductStockOnHand[(Kurangi Saldo QuantityOnHand di InventoryStocks)]
+        DeductStockOnHand --> LogOutboundTrx[(Insert Record Baru di StockTransactions: Tipe OUTBOUND)]
+        LogOutboundTrx --> CommitOutbound[Commit Transaksi Outbound ke Database]
+        CommitOutbound --> CheckReorderAlert{Sisa Saldo Stok <= Reorder Level Produk?}
+        CheckReorderAlert -- Ya --> TriggerWarning[Sistem Nyalakan Badge 'Perlu Perhatian' & Rekomendasi Reorder]
+        CheckReorderAlert -- Tidak --> StockSafe[Status Stok Aman]
+    end
+
+    %% 7. TRANSFER GUDANG
+    subgraph SUB_TRANSFER ["7. Transfer Stok Antar Fasilitas Gudang"]
+        ChooseMenu -- Transfer Gudang --> OpenTransferModal[/Form Transfer: Pilih Produk, Gudang Asal, & Gudang Tujuan/]
+        OpenTransferModal --> CheckOriginDiff{Gudang Asal != Gudang Tujuan?}
+        CheckOriginDiff -- Sama --> ShowSameWHErr[/Error: Gudang Asal dan Tujuan Tidak Boleh Sama!/] --> OpenTransferModal
+        CheckOriginDiff -- Berbeda --> CheckOriginQty{Saldo Stok di Gudang Asal Mencukupi?}
+        CheckOriginQty -- Tidak Cukup --> ShowNoOriginStock[/Error: Saldo Gudang Asal Kurang!/] --> OpenTransferModal
+        CheckOriginQty -- Cukup --> TransferDBTrx[Mulai Atomic Two-Phase Database Transaction]
+        TransferDBTrx --> DeductOrigin[(Kurangi Saldo Stok di Gudang Asal)]
+        DeductOrigin --> AddDestination[(Tambahkan Saldo Stok di Gudang Tujuan)]
+        AddDestination --> LogTransferTrx[(Insert Record Baru di StockTransactions: Tipe TRANSFER)]
+        LogTransferTrx --> CommitTransfer[Commit Transaksi Transfer ke Database]
+    end
+
+    %% 8. STOCK OPNAME
+    subgraph SUB_OPNAME ["8. Stock Opname & Penyesuaian Selisih"]
+        ChooseMenu -- Stock Opname --> OpenOpnameForm[/Pilih Fasilitas Gudang & Produk untuk Di-audit/]
+        OpenOpnameForm --> FetchBookBalance[(Ambil Angka Saldo Buku Sistem)]
+        FetchBookBalance --> InputPhysicalAudit[/Petugas Memasukkan Hasil Hitungan Fisik Nyata di Rak/]
+        InputPhysicalAudit --> CompareOpname{Hitungan Fisik == Saldo Buku Sistem?}
+        CompareOpname -- Sesuai Akurat --> LogAuditMatch[(Catat Tanggal Audit Terakhir Tanpa Selisih)] --> OpnameDone[Audit Selesai]
+        CompareOpname -- Ada Selisih --> InputDiscrepancyReason[/Wajib Isi Keterangan Penyebab Selisih & No. Berita Acara/]
+        InputDiscrepancyReason --> ManagerOpnameApproval{Persetujuan Manajer Gudang?}
+        ManagerOpnameApproval -- Ditolak --> RejectOpname[/Penyesuaian Ditolak: Lakukan Penghitungan Ulang/] --> InputPhysicalAudit
+        ManagerOpnameApproval -- Disetujui --> AdjustmentDBTrx[Mulai Database Transaction Penyesuaian]
+        AdjustmentDBTrx --> UpdateBalanceToActual[(Update Saldo Stok Sesuai Angka Fisik Aktual)]
+        UpdateBalanceToActual --> LogAdjustTrx[(Insert Record Baru di StockTransactions: Tipe ADJUSTMENT)]
+        LogAdjustTrx --> LogAuditAuditTrail[(Simpan Catatan Auditor di AuditLogs)]
+        LogAuditAuditTrail --> CommitAdjustment[Commit Transaksi Penyesuaian ke Database]
+        CommitAdjustment --> OpnameDone
+    end
+
+    %% 9. SINKRONISASI & SELESAI
+    ProductDone --> SyncDashboard[Sinkronisasi Ulang Nilai Total Aset & Metrik Dasbor]
+    PODone --> SyncDashboard
+    CommitInbound --> SyncDashboard
+    TriggerWarning --> SyncDashboard
+    StockSafe --> SyncDashboard
+    CommitTransfer --> SyncDashboard
+    OpnameDone --> SyncDashboard
+
+    SyncDashboard --> NextActionChoice{Ingin Menjalankan Operasi Lain?}
+    NextActionChoice -- Ya --> ChooseMenu
+    NextActionChoice -- Tidak / Logout --> LogoutAction[Hapus JWT Token dari LocalStorage]
+    LogoutAction --> End([Selesai: Sesi Operasional Ditutup])
+```
 
 ---
 
