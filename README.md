@@ -177,8 +177,9 @@ erDiagram
 Smart Warehouse & Inventory Management System/
 ├── Docs/                                    # Spesifikasi Teknis S1 & Panduan Arsitektur
 │   ├── API_SPECS.md                         # Kontrak Endpoint REST API & DTO
-│   ├── ARCHITECTURE.md                      # Diagram Alur & Flowchart Sistem
+│   ├── ARCHITECTURE.md                      # Arsitektur & Gambaran Sistem
 │   ├── CONTEXT.md                           # Problem Statement & Matriks RBAC
+│   ├── FLOWCHARTS.md                        # Flowchart Standar Lengkap (Start > End Mermaid / Draw.io)
 │   ├── PLANNING.md                          # Roadmap & Tahapan Pengembangan
 │   ├── PROGRESS.md                          # Checklist Kelengkapan Modul
 │   └── SCHEMA.md                            # Kamus Data 3NF & Definisi Relasi ERD
