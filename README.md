@@ -178,17 +178,23 @@ Smart Warehouse & Inventory Management System/
 ├── Docs/                                    # Spesifikasi Teknis S1 & Panduan Arsitektur
 │   ├── API_SPECS.md                         # Kontrak Endpoint REST API & DTO
 │   ├── ARCHITECTURE.md                      # Arsitektur & Gambaran Sistem
+│   ├── AZURE_VM_DEPLOYMENT.md               # Panduan Lengkap Deploy ke Azure VM (Docker Compose)
 │   ├── CONTEXT.md                           # Problem Statement & Matriks RBAC
-│   ├── FLOWCHARTS.md                        # Flowchart Standar Lengkap (Start > End Mermaid / Draw.io)
+│   ├── FLOWCHARTS.md                        # Flowchart Standar Lengkap (Mermaid & Draw.io)
+│   ├── flowcharts/                          # Kumpulan File .mmd & Flowcharts.drawio
+│   │   ├── master_system_flowchart.mmd      # Master Flowchart Utuh Seluruh Modul
+│   │   └── Flowcharts.drawio                # File XML Draw.io Siap Edit
 │   ├── PLANNING.md                          # Roadmap & Tahapan Pengembangan
 │   ├── PROGRESS.md                          # Checklist Kelengkapan Modul
 │   └── SCHEMA.md                            # Kamus Data 3NF & Definisi Relasi ERD
 │
 ├── backend/                                 # C# ASP.NET Core 10 Web API
 │   ├── SmartWarehouse.sln
+│   ├── Dockerfile                           # Multi-stage Docker Build .NET 10
 │   └── SmartWarehouse.Api/
 │       ├── Controllers/                     # Auth, Products, Inventory, PO, Warehouses, Users
 │       ├── Data/                            # DbContext & Database Seeder (20+ Seed Baris)
+│       │   └── Scripts/init_database.sql    # DDL & DML SQL Server Siap Pakai di SSMS
 │       ├── DTOs/                            # Request & Response Contracts
 │       ├── Middleware/                      # Global Error Handler & Response Envelope
 │       ├── Models/Entities/                 # 11 Domain Relational Entities
@@ -197,6 +203,8 @@ Smart Warehouse & Inventory Management System/
 │       └── Program.cs                       # Server & Dependency Injection Setup
 │
 ├── frontend/                                # React 19 + TypeScript + Vite SPA
+│   ├── Dockerfile                           # Multi-stage Docker Build (Node 20 -> Nginx)
+│   ├── nginx.conf                           # Konfigurasi Reverse Proxy & SPA Routing
 │   ├── src/
 │   │   ├── components/                      # DataTable, Modal, StatusBadge, FileUpload
 │   │   ├── context/                         # AuthContext (JWT & OTP) & ToastContext
@@ -208,13 +216,34 @@ Smart Warehouse & Inventory Management System/
 │   ├── package.json
 │   └── vite.config.ts
 │
+├── docker-compose.yml                       # Orkestrasi Docker (DB + Backend + Frontend)
+├── .env.example                             # Contoh Environment Variable Docker
 ├── .gitignore                               # Aturan Eksklusi Git Monorepo
 └── README.md                                # Dokumentasi Utama Repositori
 ```
 
 ---
 
-## 📄 8. Lisensi & Hak Cipta
+## 🚀 8. Deployment ke Cloud / Azure VM (Docker)
+
+Untuk menjalankan seluruh sistem (Database SQL Server 2022, Backend .NET 10 API, dan Frontend React Nginx) hanya dengan **1 perintah**, gunakan Docker Compose:
+
+```bash
+# 1. Salin template env & atur password database
+cp .env.example .env
+
+# 2. Jalankan seluruh container
+docker compose up -d --build
+
+# 3. Buka di browser
+http://localhost (atau http://<IP_PUBLIK_VM>)
+```
+
+Panduan instalasi langkah demi langkah dari nol di Ubuntu Azure VM tersedia lengkap di [Docs/AZURE_VM_DEPLOYMENT.md](Docs/AZURE_VM_DEPLOYMENT.md).
+
+---
+
+## 📄 9. Lisensi & Hak Cipta
 
 Proyek ini dikembangkan oleh **Fajar Sidik** sebagai portofolio implementasi sistem informasi pergudangan modern skala enterprise.
 
