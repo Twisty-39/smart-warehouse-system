@@ -11,5 +11,6 @@ export const resolveMediaUrl = (url?: string, fallbackName: string = 'User'): st
   }
 
   const cleanPath = url.startsWith('/') ? url : `/${url}`;
-  return `http://localhost:5000${cleanPath}`;
+  const serverBase = import.meta.env.VITE_SERVER_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+  return `${serverBase}${cleanPath}`;
 };
