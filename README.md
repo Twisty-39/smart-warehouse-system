@@ -181,9 +181,8 @@ Smart Warehouse & Inventory Management System/
 │   ├── AZURE_VM_DEPLOYMENT.md               # Panduan Lengkap Deploy ke Azure VM (Docker Compose)
 │   ├── CONTEXT.md                           # Problem Statement & Matriks RBAC
 │   ├── FLOWCHARTS.md                        # Flowchart Standar Lengkap (Mermaid & Draw.io)
-│   ├── flowcharts/                          # Kumpulan File .mmd & Flowcharts.drawio
-│   │   ├── master_system_flowchart.mmd      # Master Flowchart Utuh Seluruh Modul
-│   │   └── Flowcharts.drawio                # File XML Draw.io Siap Edit
+│   ├── flowcharts/                          # Berkas Flowchart Visual
+│   │   └── Flowcharts.drawio                # File XML Draw.io Siap Edit Langsung
 │   ├── PLANNING.md                          # Roadmap & Tahapan Pengembangan
 │   ├── PROGRESS.md                          # Checklist Kelengkapan Modul
 │   └── SCHEMA.md                            # Kamus Data 3NF & Definisi Relasi ERD

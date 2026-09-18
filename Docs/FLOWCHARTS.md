@@ -36,7 +36,7 @@ Semua diagram dibuat menggunakan sintaks resmi **Mermaid.js** (`flowchart TD`) d
 ---
 
 ## 0. FLOWCHART MASTER SISTEM TERINTEGRASI (UNIFIED END-TO-END)
-> **Satu Kesatuan Utuh**: Diagram ini merangkum seluruh operasional sistem dari `Start ([Mulai])` login & autentikasi, pemilihan menu operasional, siklus PO, barang masuk (Inbound), barang keluar (Outbound), transfer antar fasilitas, stock opname, hingga `End ([Selesai])` penutupan sesi. Berkas mandiri dapat diakses di: [`Docs/flowcharts/master_system_flowchart.mmd`](file:///d:/FAJAR%20SIDIK/Portofolio/Smart%20Warehouse%20&%20Inventory%20Management%20System/Docs/flowcharts/master_system_flowchart.mmd).
+> **Satu Kesatuan Utuh**: Diagram ini merangkum seluruh operasional sistem dari `Start ([Mulai])` login & autentikasi, pemilihan menu operasional, siklus PO, barang masuk (Inbound), barang keluar (Outbound), transfer antar fasilitas, stock opname, hingga `End ([Selesai])` penutupan sesi. Berkas visual Draw.io yang siap diedit dapat diakses di: [`Docs/flowcharts/Flowcharts.drawio`](file:///d:/FAJAR%20SIDIK/Portofolio/Smart%20Warehouse%20&%20Inventory%20Management%20System/Docs/flowcharts/Flowcharts.drawio).
 
 ```mermaid
 flowchart TD
