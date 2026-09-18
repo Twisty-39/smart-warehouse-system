@@ -1,0 +1,28 @@
+flowchart TD
+    Start([Mulai: Kebutuhan Pengadaan Barang Baru / Reorder]) --> CheckRole{Peran Pengguna: Purchasing atau Admin?}
+    CheckRole -- Tidak --> AccessDenied[/Tampilkan Peringatan: Tidak Memiliki Hak Akses PO/] --> End([Selesai])
+    
+    CheckRole -- Ya --> OpenCreatePO[/Tampilkan Form Pembuatan Purchase Order/]
+    OpenCreatePO --> SelectVendor[/Pilih Mitra Pemasok / Vendor Terdaftar/]
+    SelectVendor --> AddItems[/Tambahkan Baris Produk, Kuantitas Dipesan & Estimasi Harga/]
+    AddItems --> CalculateTotal[Sistem Hitung Otomatis Total Nilai Pemesanan / Subtotal]
+    
+    CalculateTotal --> ChooseAction{Pilihan Aksi Petugas}
+    ChooseAction -- Simpan Sebagai Draf --> SaveDraft[(Simpan ke Tabel PurchaseOrders dengan Status: DRAFT)]
+    SaveDraft --> ShowDraftSaved[/Tampilkan Notifikasi: Draf PO Tersimpan/] --> End
+    
+    ChooseAction -- Ajukan Persetujuan --> SubmitForApproval[(Simpan dengan Status: SUBMITTED)]
+    SubmitForApproval --> SendNotifyManager[/Kirim Notifikasi Tugas Approval ke Manajer Gudang/]
+    
+    SendNotifyManager --> ManagerReview[Manajer Gudang Membuka Detail PO]
+    ManagerReview --> CheckBudget{Evaluasi: Anggaran Mencukupi & Kuantitas Masuk Akal?}
+    
+    CheckBudget -- Tolak Pesanan --> InputRejectReason[/Manajer Mengisi Catatan Alasan Penolakan/]
+    InputRejectReason --> UpdateStatusReject[(Update Status PO Menjadi: REJECTED)]
+    UpdateStatusReject --> NotifyPurchasingReject[/Notifikasi Penolakan ke Bagian Purchasing/] --> End
+    
+    CheckBudget -- Setujui Pesanan --> ApprovePO[(Update Status PO Menjadi: APPROVED)]
+    ApprovePO --> GeneratePONumber[Generate Nomor Resmi PO: PO-YYYYMMDD-XXXX]
+    GeneratePONumber --> SendPOToVendor[/Kirim Dokumen Purchase Order Resmi ke Vendor Pemasok/]
+    SendPOToVendor --> AwaitShipment[/Menunggu Pengiriman Fisik Barang dari Pemasok/]
+    AwaitShipment --> End

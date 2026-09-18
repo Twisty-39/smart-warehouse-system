@@ -1,0 +1,30 @@
+flowchart TD
+    Start([Mulai: Permintaan Pengeluaran / Distribusi Barang]) --> OpenOutboundForm[/Petugas Gudang Membuka Form Barang Keluar / Outbound/]
+    OpenOutboundForm --> SelectWarehouse[/Pilih Fasilitas Gudang Asal Pengeluaran/]
+    SelectWarehouse --> SelectProductItem[/Pilih Produk SKU & Masukkan Kuantitas yang Diminta/]
+    
+    SelectProductItem --> QueryCurrentStock[(Query Saldo Stok di InventoryStocks)]
+    QueryCurrentStock --> CheckStockAvailable{Available Quantity >= Kuantitas yang Diminta?}
+    
+    CheckStockAvailable -- Tidak Cukup --> ShowStockDeficitErr[/Error: Saldo Stok Tidak Mencukupi! Tampilkan Saldo Tersedia/]
+    ShowStockDeficitErr --> AdjustQuantityPrompt{Ingin Mengubah Kuantitas Pengeluaran?}
+    AdjustQuantityPrompt -- Tidak --> CancelDispatch[Batalkan Pengeluaran Barang] --> End([Selesai])
+    AdjustQuantityPrompt -- Ya --> SelectProductItem
+    
+    CheckStockAvailable -- Mencukupi --> InputOutboundDetail[/Input Nomor Referensi / Surat Perintah Jalan & Keterangan/]
+    InputOutboundDetail --> ConfirmOutbound[Klik Tombol 'Proses Pengeluaran Barang']
+    
+    ConfirmOutbound --> BeginOutboundTrx[Mulai Database Transaction]
+    BeginOutboundTrx --> DeductStockDB[(Kurangi Saldo QuantityOnHand di InventoryStocks Gudang Bersangkutan)]
+    DeductStockDB --> InsertOutboundLog[(Catat Transaksi di StockTransactions Tipe: OUTBOUND)]
+    InsertOutboundLog --> CommitOutboundTrx[Commit Database Transaction]
+    
+    CommitOutboundTrx --> PhysicalPicking[Pengambilan Fisik Barang dari Rak / Bin Location]
+    PhysicalPicking --> PackingAndDispatch[Packing & Serah Terima ke Ekspedisi / Pemesan]
+    
+    PackingAndDispatch --> CheckReorderThreshold{Sisa Saldo Stok <= Reorder Level Produk?}
+    CheckReorderThreshold -- Ya --> TriggerLowStockAlert[/Sistem Otomatis Nyalakan Badge 'Perlu Perhatian' & Notifikasi Reorder di Dasbor/]
+    CheckReorderThreshold -- Tidak --> NormalStock[/Status Stok Tetap Hijau / Aman/]
+    
+    TriggerLowStockAlert --> End
+    NormalStock --> End

@@ -1,0 +1,40 @@
+flowchart TD
+    Start([Mulai: Pengguna Membuka Aplikasi]) --> CheckSession{Ada Token JWT Valid di LocalStorage?}
+    
+    %% Skenario Token Sudah Ada
+    CheckSession -- Ya --> VerifyExpiry{Token Kedaluwarsa?}
+    VerifyExpiry -- Tidak --> LoadProfile[Ambil Data Profil & Hak Akses Role dari Token/API]
+    VerifyExpiry -- Ya --> ClearStorage[Hapus Token Kedaluwarsa dari LocalStorage] --> OpenLoginPage
+    
+    %% Skenario Belum Login
+    CheckSession -- Tidak --> OpenLoginPage[/Tampilkan Halaman Login: Input Email & Kata Sandi/]
+    OpenLoginPage --> InputCreds[/Pengguna Memasukkan Email & Kata Sandi/]
+    InputCreds --> ClickSubmit[Klik Tombol 'Masuk Sekarang']
+    
+    ClickSubmit --> FrontendValidate{Format Email Valid & Password Terisi?}
+    FrontendValidate -- Tidak --> ShowClientValErr[/Tampilkan Peringatan Validasi Form/] --> OpenLoginPage
+    FrontendValidate -- Ya --> SendAuthAPI[Kirim Request POST /api/auth/login ke Server]
+    
+    SendAuthAPI --> CheckEmailDB{Email Terdaftar di Database?}
+    CheckEmailDB -- Tidak --> ReturnAuthFail[/Kembalikan Error 401: Kredensial Tidak Valid/]
+    CheckEmailDB -- Ya --> VerifyBCrypt{Hash Kata Sandi Cocok via BCrypt?}
+    VerifyBCrypt -- Tidak --> ReturnAuthFail
+    ReturnAuthFail --> ShowToastErr[/Tampilkan Pesan Gagal di UI/] --> OpenLoginPage
+    
+    VerifyBCrypt -- Ya --> CheckUserActive{Status Akun Aktif?}
+    CheckUserActive -- Tidak --> ReturnDeactivated[/Kembalikan Error 403: Akun Dinonaktifkan/] --> ShowToastErr
+    
+    CheckUserActive -- Ya --> GenJWT[Generate JWT Access Token Berisi Claims: UserId, Role, Email]
+    GenJWT --> SaveJWT[/Simpan Token di LocalStorage Browser/]
+    SaveJWT --> LoadProfile
+    
+    LoadProfile --> CheckRole{Pengecekan Peran Akun Pengguna}
+    CheckRole -- ROLE_ADMIN --> RouteAdmin[/Akses Penuh: Dasbor, Master Data, Mutasi, Manajemen User, Log Audit/]
+    CheckRole -- ROLE_MANAGER --> RouteManager[/Akses Manajerial: Dasbor, Approval PO, Opname, Transfer, Laporan/]
+    CheckRole -- ROLE_STAFF --> RouteStaff[/Akses Operasional: Monitoring Stok, Inbound Masuk, Outbound Keluar/]
+    CheckRole -- ROLE_PURCHASING --> RoutePurchasing[/Akses Pembelian: Buat Draft PO, Manajemen Pemasok Vendor/]
+    
+    RouteAdmin --> End([Selesai: Pengguna Berada di Halaman Utama Dasbor])
+    RouteManager --> End
+    RouteStaff --> End
+    RoutePurchasing --> End

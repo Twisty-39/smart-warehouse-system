@@ -1,0 +1,38 @@
+flowchart TD
+    Start([Mulai: Pelaksanaan Jadwal Audit Fisik / Stock Opname]) --> SelectAuditWarehouse[/Petugas Pilih Gudang & Produk yang Akan Diaudit/]
+    SelectAuditWarehouse --> FetchSystemBalance[(Sistem Ambil Angka Saldo Tercatat di Database)]
+    FetchSystemBalance --> DisplaySystemQty[/Tampilkan Informasi: Saldo Buku Sistem Saat Ini/]
+    
+    DisplaySystemQty --> PerformPhysicalCounting[Petugas Menghitung Fisik Barang Nyata di Rak / Bin]
+    PerformPhysicalCounting --> InputPhysicalCount[/Petugas Memasukkan Hasil Hitungan Fisik Aktual/]
+    
+    InputPhysicalCount --> CompareAudit{Hitungan Fisik == Saldo Buku Sistem?}
+    
+    %% Skenario Sesuai
+    CompareAudit -- Ya Sesuai --> RecordZeroVariance[Kuantitas Selisih = 0 Unit - Akurat]
+    RecordZeroVariance --> SaveOpnameLog[(Simpan Catatan Tanggal Opname Terakhir di Database)]
+    SaveOpnameLog --> ShowAuditMatchedToast[/Tampilkan Pesan: Stok Fisik & Sistem 100% Cocok/] --> End([Selesai])
+    
+    %% Skenario Ada Selisih
+    CompareAudit -- Terjadi Selisih --> CalculateVariance[Sistem Hitung Selisih: Fisik - Sistem]
+    CalculateVariance --> EvaluateVarianceType{Jenis Selisih?}
+    
+    EvaluateVarianceType -- Selisih Positif (Fisik > Sistem) --> SurplusCase[Surplus: Barang Fisik Lebih Banyak dari Catatan]
+    EvaluateVarianceType -- Selisih Negatif (Fisik < Sistem) --> DeficitCase[Defisit: Barang Fisik Kurang / Hilang / Rusak]
+    
+    SurplusCase --> MandatoryReasonPrompt[/Wajib Isi Keterangan Alasan Selisih & Nomor Berita Acara/]
+    DeficitCase --> MandatoryReasonPrompt
+    
+    MandatoryReasonPrompt --> VerifyAdjustmentApproval{Peran Petugas = Manager atau Admin?}
+    VerifyAdjustmentApproval -- Tidak --> SubmitAdjustmentRequest[/Kirim Tiket Penyesuaian ke Manajer untuk Di-review/] --> End
+    
+    VerifyAdjustmentApproval -- Ya --> ConfirmAdjustment[Konfirmasi Persetujuan Penyesuaian Saldo]
+    ConfirmAdjustment --> StartAdjustmentTrx[Buka Database Transaction]
+    StartAdjustmentTrx --> UpdateStockBalance[(Update Nilai QuantityOnHand Sesuai Angka Fisik Nyata)]
+    UpdateStockBalance --> InsertAdjustmentTransaction[(Insert Record di StockTransactions Tipe: ADJUSTMENT)]
+    InsertAdjustmentTransaction --> RecordManagerAudit[(Simpan Catatan Nama Auditor & Manager di AuditLogs)]
+    RecordManagerAudit --> CommitAdjustmentTrx[Commit Database Transaction]
+    
+    CommitAdjustmentTrx --> NotifyDiscrepancyReconciled[/Tampilkan Toast: Saldo Stok Berhasil Direkonsiliasi/]
+    NotifyDiscrepancyReconciled --> UpdateReports[/Perbarui Laporan Keuangan & Nilai Aset Dasbor/]
+    UpdateReports --> End
