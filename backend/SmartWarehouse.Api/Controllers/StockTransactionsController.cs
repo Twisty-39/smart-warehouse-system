@@ -155,8 +155,9 @@ public class StockTransactionsController : BaseApiController
 
         try
         {
+            var binLoc = string.IsNullOrWhiteSpace(dto.BinLocation) ? "DEFAULT" : dto.BinLocation.Trim();
             var stock = await _context.InventoryStocks
-                .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.WarehouseId && s.BinLocation == dto.BinLocation);
+                .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.WarehouseId && s.BinLocation == binLoc);
 
             if (type == "INBOUND")
             {
@@ -166,11 +167,12 @@ public class StockTransactionsController : BaseApiController
                     {
                         ProductId = dto.ProductId,
                         WarehouseId = dto.WarehouseId,
-                        BinLocation = dto.BinLocation.Trim(),
+                        BinLocation = binLoc,
                         QuantityOnHand = dto.Quantity,
                         QuantityAllocated = 0,
                         QuantityAvailable = dto.Quantity,
-                        LastCountedAt = DateTime.UtcNow
+                        LastCountedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
                     };
                     await _context.InventoryStocks.AddAsync(stock);
                 }
@@ -178,6 +180,7 @@ public class StockTransactionsController : BaseApiController
                 {
                     stock.QuantityOnHand += dto.Quantity;
                     stock.QuantityAvailable = Math.Max(0, stock.QuantityOnHand - stock.QuantityAllocated);
+                    stock.UpdatedAt = DateTime.UtcNow;
                 }
             }
             else // OUTBOUND
@@ -189,6 +192,7 @@ public class StockTransactionsController : BaseApiController
 
                 stock.QuantityOnHand -= dto.Quantity;
                 stock.QuantityAvailable = Math.Max(0, stock.QuantityOnHand - stock.QuantityAllocated);
+                stock.UpdatedAt = DateTime.UtcNow;
             }
 
             var refPrefix = type == "INBOUND" ? "INB" : "OUT";

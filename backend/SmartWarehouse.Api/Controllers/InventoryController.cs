@@ -141,8 +141,9 @@ public class InventoryController : BaseApiController
 
         try
         {
+            var binLoc = string.IsNullOrWhiteSpace(dto.BinLocation) ? "DEFAULT" : dto.BinLocation.Trim();
             var stock = await _context.InventoryStocks
-                .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.WarehouseId && s.BinLocation == dto.BinLocation);
+                .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.WarehouseId && s.BinLocation == binLoc);
 
             var previousQty = stock?.QuantityOnHand ?? 0;
             var diff = dto.NewQuantityOnHand - previousQty;
@@ -153,11 +154,12 @@ public class InventoryController : BaseApiController
                 {
                     ProductId = dto.ProductId,
                     WarehouseId = dto.WarehouseId,
-                    BinLocation = dto.BinLocation.Trim(),
+                    BinLocation = binLoc,
                     QuantityOnHand = dto.NewQuantityOnHand,
                     QuantityAllocated = 0,
                     QuantityAvailable = dto.NewQuantityOnHand,
-                    LastCountedAt = DateTime.UtcNow
+                    LastCountedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 };
                 await _context.InventoryStocks.AddAsync(stock);
             }
@@ -166,6 +168,7 @@ public class InventoryController : BaseApiController
                 stock.QuantityOnHand = dto.NewQuantityOnHand;
                 stock.QuantityAvailable = Math.Max(0, dto.NewQuantityOnHand - stock.QuantityAllocated);
                 stock.LastCountedAt = DateTime.UtcNow;
+                stock.UpdatedAt = DateTime.UtcNow;
             }
 
             // Catat mutasi audit
@@ -226,8 +229,11 @@ public class InventoryController : BaseApiController
             return BadRequest(ApiResponse<object>.Fail("Gudang asal dan tujuan tidak boleh sama.", 400));
         }
 
+        var srcBin = string.IsNullOrWhiteSpace(dto.SourceBinLocation) ? "DEFAULT" : dto.SourceBinLocation.Trim();
+        var tgtBin = string.IsNullOrWhiteSpace(dto.TargetBinLocation) ? "DEFAULT" : dto.TargetBinLocation.Trim();
+
         var sourceStock = await _context.InventoryStocks
-            .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.SourceWarehouseId && s.BinLocation == dto.SourceBinLocation);
+            .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.SourceWarehouseId && s.BinLocation == srcBin);
 
         if (sourceStock == null || sourceStock.QuantityAvailable < dto.Quantity)
         {
@@ -235,13 +241,14 @@ public class InventoryController : BaseApiController
         }
 
         var targetStock = await _context.InventoryStocks
-            .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.TargetWarehouseId && s.BinLocation == dto.TargetBinLocation);
+            .FirstOrDefaultAsync(s => s.ProductId == dto.ProductId && s.WarehouseId == dto.TargetWarehouseId && s.BinLocation == tgtBin);
 
         try
         {
             // 1. Kurangi gudang asal
             sourceStock.QuantityOnHand -= dto.Quantity;
             sourceStock.QuantityAvailable = Math.Max(0, sourceStock.QuantityOnHand - sourceStock.QuantityAllocated);
+            sourceStock.UpdatedAt = DateTime.UtcNow;
 
             // 2. Tambah gudang tujuan
             if (targetStock == null)
@@ -250,11 +257,12 @@ public class InventoryController : BaseApiController
                 {
                     ProductId = dto.ProductId,
                     WarehouseId = dto.TargetWarehouseId,
-                    BinLocation = dto.TargetBinLocation.Trim(),
+                    BinLocation = tgtBin,
                     QuantityOnHand = dto.Quantity,
                     QuantityAllocated = 0,
                     QuantityAvailable = dto.Quantity,
-                    LastCountedAt = DateTime.UtcNow
+                    LastCountedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
                 };
                 await _context.InventoryStocks.AddAsync(targetStock);
             }
@@ -262,6 +270,7 @@ public class InventoryController : BaseApiController
             {
                 targetStock.QuantityOnHand += dto.Quantity;
                 targetStock.QuantityAvailable = Math.Max(0, targetStock.QuantityOnHand - targetStock.QuantityAllocated);
+                targetStock.UpdatedAt = DateTime.UtcNow;
             }
 
             // 3. Catat mutasi audit TRANSFER

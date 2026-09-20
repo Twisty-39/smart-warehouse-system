@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { inventoryApi, productsApi, warehousesApi } from '../../services/api';
 import { InventoryStock, Product, Warehouse, PaginationMeta } from '../../types';
 import { DataTable, Column, FilterOption } from '../../components/DataTable';
@@ -12,6 +13,9 @@ export const InventoryPage: React.FC = () => {
   const { user } = useAuth();
   const canAdjust = user?.roleCode === 'ROLE_ADMIN' || user?.roleCode === 'ROLE_MANAGER';
   const canTransfer = user?.roleCode === 'ROLE_ADMIN' || user?.roleCode === 'ROLE_MANAGER' || user?.roleCode === 'ROLE_STAFF';
+
+  const [searchParams] = useSearchParams();
+  const initialWh = searchParams.get('warehouseId') || '';
 
   const [stocks, setStocks] = useState<InventoryStock[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -28,7 +32,7 @@ export const InventoryPage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState('');
-  const [warehouseId, setWarehouseId] = useState<string | number>('');
+  const [warehouseId, setWarehouseId] = useState<string | number>(initialWh);
   const [status, setStatus] = useState('');
   const [sortBy, setSortBy] = useState('updatedAt');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
@@ -166,6 +170,31 @@ export const InventoryPage: React.FC = () => {
     }
   };
 
+  const handleOpenAdjustRow = (s: InventoryStock) => {
+    setAdjustForm({
+      productId: s.productId,
+      warehouseId: s.warehouseId,
+      binLocation: s.binLocation,
+      newQuantityOnHand: s.quantityOnHand,
+      reason: 'Penyesuaian Fisik / Audit Opname'
+    });
+    setIsAdjustOpen(true);
+  };
+
+  const handleOpenTransferRow = (s: InventoryStock) => {
+    const targetW = warehouses.find((w) => w.id !== s.warehouseId) || warehouses[0];
+    setTransferForm({
+      productId: s.productId,
+      sourceWarehouseId: s.warehouseId,
+      targetWarehouseId: targetW ? targetW.id : s.warehouseId,
+      sourceBinLocation: s.binLocation,
+      targetBinLocation: 'DEFAULT',
+      quantity: Math.min(s.quantityAvailable, 10) || 1,
+      notes: `Transfer ${s.productName} dari ${s.warehouseName} (${s.binLocation})`
+    });
+    setIsTransferOpen(true);
+  };
+
   const columns: Column<InventoryStock>[] = [
     {
       key: 'productName',
@@ -241,6 +270,34 @@ export const InventoryPage: React.FC = () => {
         }
         return <span className="badge badge-success">Aman</span>;
       }
+    },
+    {
+      key: 'actions',
+      header: 'AKSI',
+      render: (s) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {canAdjust && (
+            <button
+              onClick={() => handleOpenAdjustRow(s)}
+              className="btn btn-secondary btn-icon"
+              style={{ width: '32px', height: '32px' }}
+              title={`Penyesuaian / Opname (${s.productName} di ${s.binLocation})`}
+            >
+              <SlidersHorizontal size={14} />
+            </button>
+          )}
+          {canTransfer && (
+            <button
+              onClick={() => handleOpenTransferRow(s)}
+              className="btn btn-sky btn-icon"
+              style={{ width: '32px', height: '32px' }}
+              title={`Transfer Stok (${s.productName} dari ${s.warehouseName})`}
+            >
+              <ArrowLeftRight size={14} />
+            </button>
+          )}
+        </div>
+      )
     }
   ];
 

@@ -277,8 +277,9 @@ public class PurchaseOrdersController : BaseApiController
             {
                 item.ReceivedQuantity = item.OrderedQuantity;
 
+                var binLoc = string.IsNullOrWhiteSpace(dto.BinLocation) ? "DEFAULT" : dto.BinLocation.Trim();
                 var stock = await _context.InventoryStocks
-                    .FirstOrDefaultAsync(s => s.ProductId == item.ProductId && s.WarehouseId == dto.TargetWarehouseId && s.BinLocation == dto.BinLocation);
+                    .FirstOrDefaultAsync(s => s.ProductId == item.ProductId && s.WarehouseId == dto.TargetWarehouseId && s.BinLocation == binLoc);
 
                 if (stock == null)
                 {
@@ -286,11 +287,12 @@ public class PurchaseOrdersController : BaseApiController
                     {
                         ProductId = item.ProductId,
                         WarehouseId = dto.TargetWarehouseId,
-                        BinLocation = dto.BinLocation.Trim(),
+                        BinLocation = binLoc,
                         QuantityOnHand = item.OrderedQuantity,
                         QuantityAllocated = 0,
                         QuantityAvailable = item.OrderedQuantity,
-                        LastCountedAt = DateTime.UtcNow
+                        LastCountedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
                     };
                     await _context.InventoryStocks.AddAsync(stock);
                 }
@@ -298,6 +300,7 @@ public class PurchaseOrdersController : BaseApiController
                 {
                     stock.QuantityOnHand += item.OrderedQuantity;
                     stock.QuantityAvailable = Math.Max(0, stock.QuantityOnHand - stock.QuantityAllocated);
+                    stock.UpdatedAt = DateTime.UtcNow;
                 }
 
                 // Log Inbound Transaction with unique reference number

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { warehousesApi, usersApi } from '../../services/api';
 import { Warehouse, User, PaginationMeta } from '../../types';
 import { DataTable, Column, FilterOption } from '../../components/DataTable';
@@ -7,7 +8,7 @@ import { ConfirmModal } from '../../components/ConfirmModal';
 import { StatusBadge } from '../../components/StatusBadge';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
-import { Plus, Edit2, Trash2, Warehouse as WhIcon, MapPin, UserCheck, Eye } from 'lucide-react';
+import { Plus, Edit2, Trash2, Warehouse as WhIcon, MapPin, UserCheck, Eye, Boxes } from 'lucide-react';
 import { exportToExcel, ExportColumn } from '../../utils/export';
 
 export const WarehousesPage: React.FC = () => {
@@ -209,6 +210,14 @@ export const WarehousesPage: React.FC = () => {
           >
             <Eye size={16} color="#2C2424" />
           </button>
+          <Link
+            to={`/inventory?warehouseId=${w.id}`}
+            className="btn btn-sky btn-icon"
+            style={{ width: '34px', height: '34px' }}
+            title={`Lihat Stok Barang di ${w.name}`}
+          >
+            <Boxes size={16} color="#2C2424" />
+          </Link>
           {canManageWarehouses && (
             <>
               <button
@@ -442,7 +451,22 @@ export const WarehousesPage: React.FC = () => {
           onClose={() => setIsDetailOpen(false)}
           title={`Detail Gudang: ${selectedWarehouse.name}`}
           maxWidth="500px"
-          footer={<button className="btn btn-secondary" onClick={() => setIsDetailOpen(false)}>Tutup</button>}
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+              <Link
+                to={`/inventory?warehouseId=${selectedWarehouse.id}`}
+                className="btn btn-primary"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem' }}
+                onClick={() => setIsDetailOpen(false)}
+              >
+                <Boxes size={16} />
+                <span>Buka Stok Gudang Ini</span>
+              </Link>
+              <button className="btn btn-secondary" onClick={() => setIsDetailOpen(false)}>
+                Tutup
+              </button>
+            </div>
+          }
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>

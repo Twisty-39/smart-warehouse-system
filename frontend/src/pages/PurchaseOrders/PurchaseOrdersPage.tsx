@@ -65,7 +65,7 @@ export const PurchaseOrdersPage: React.FC = () => {
   // Receive Form State
   const [receiveForm, setReceiveForm] = useState({
     targetWarehouseId: 0,
-    binLocation: 'A01-R01-B01',
+    binLocation: 'DEFAULT',
     notes: 'Penerimaan barang fisik dari PO ke gudang'
   });
 
@@ -681,8 +681,12 @@ export const PurchaseOrdersPage: React.FC = () => {
                 className="form-input"
                 value={receiveForm.binLocation}
                 onChange={(e) => setReceiveForm({ ...receiveForm, binLocation: e.target.value })}
+                placeholder="Contoh: DEFAULT atau A01-R01-B01"
                 required
               />
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block' }}>
+                Default 'DEFAULT' untuk penempatan standar gudang, atau isi kode bin/rak spesifik.
+              </span>
             </div>
 
             <div className="form-group">

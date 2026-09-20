@@ -256,17 +256,11 @@ public class AppDbContext : DbContext
         {
             if (entry.Entity is BaseEntity entity)
             {
-                if (entry.State == EntityState.Added)
+                if (entry.State == EntityState.Added && entity.CreatedAt == default)
                 {
-                    if (entity.CreatedAt == default)
-                    {
-                        entity.CreatedAt = now;
-                    }
+                    entity.CreatedAt = now;
                 }
-                if (entity.UpdatedAt == default)
-                {
-                    entity.UpdatedAt = now;
-                }
+                entity.UpdatedAt = now;
             }
         }
 
