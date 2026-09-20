@@ -1,326 +1,393 @@
-# 🎬 PANDUAN LENGKAP & NASKAH DEMO SCREEN RECORDING
-## InvWare — Smart Warehouse & Inventory Management System (SWIMS)
+# 🎬 PANDUAN LENGKAP & NASKAH DEMO OPERASIONAL INVWARE
+## Skenario Praktik Live: Dari Pendaftaran Pemasok & Gudang hingga Mutasi Stok Real-Time
 
-Dokumen ini adalah skenario presentasi dan naskah berbicara (*speaking script*) kata-per-kata yang dirancang khusus untuk rekaman video demo (*screen recording*) di hadapan dosen penguji / pembimbing.
+> **Tujuan Dokumen**: Panduan langkah demi langkah dan naskah berbicara (*speaking script*) kata-per-kata yang dirancang khusus untuk rekaman layar (*screen recording*) lewat **Smartphone (HP)**, dengan laptop sebagai monitor naskah.
+>
+> **Metode Demonstrasi**: **Operasional Nyata (Live Data Input)**. Dosen akan melihat alur hidup sistem dari awal (pendaftaran supplier & gudang), pembuatan produk SKU, siklus PO pengadaan, penerimaan barang fisik ke rak, transfer antar fasilitas, stock opname, hingga tercermin otomatis pada grafik Dasbor Eksekutif.
 
 ---
 
 ## 📋 DAFTAR ISI
-1. [Persiapan Sebelum Merekam (Pre-Recording Checklist)](#1-persiapan-sebelum-merekam)
-2. [Timeline & Rundown Alur Demo (10–12 Menit)](#2-timeline--rundown-alur-demo)
-3. [Naskah Berbicara Kata-Per-Kata & Panduan Aksi Layar](#3-naskah-berbicara-kata-per-kata--panduan-aksi-layar)
-   - [Bagian 1: Pembukaan & Latar Belakang Masalah (00:00 - 01:15)](#bagian-1-pembukaan--latar-belakang-masalah)
-   - [Bagian 2: Autentikasi, Keamanan & Pemulihan OTP (01:15 - 02:45)](#bagian-2-autentikasi-keamanan--pemulihan-otp)
-   - [Bagian 3: Dasbor Eksekutif & Analitik Real-Time (02:45 - 04:15)](#bagian-3-dasbor-eksekutif--analitik-real-time)
-   - [Bagian 4: Manajemen Master Data & Katalog SKU (04:15 - 05:30)](#bagian-4-manajemen-master-data--katalog-sku)
-   - [Bagian 5: Siklus Pengadaan (Purchase Order Lifecycle) (05:30 - 07:15)](#bagian-5-siklus-pengadaan-purchase-order-lifecycle)
-   - [Bagian 6: Tata Kelola Stok Fisik & Audit Mutasi (07:15 - 08:45)](#bagian-6-tata-kelola-stok-fisik--audit-mutasi)
-   - [Bagian 7: Manajemen Pengguna & Otorisasi RBAC (08:45 - 09:45)](#bagian-7-manajemen-pengguna--otorisasi-rbac)
-   - [Bagian 8: Arsitektur Sistem, Database & Cloud Deployment (09:45 - 11:00)](#bagian-8-arsitektur-sistem-database--cloud-deployment)
-   - [Bagian 9: Penutup & Kesimpulan (11:00 - 11:30)](#bagian-9-penutup--kesimpulan)
-4. [Antisipasi Pertanyaan Dosen Penguji (Tanya Jawab / Q&A Defense)](#4-antisipasi-pertanyaan-dosen-penguji)
+1. [Setup Perekaman Smartphone & Laptop](#1-setup-perekaman-smartphone--laptop)
+2. [Peta Alur Kerja Operasional (The Golden Lifecycle Flow)](#2-peta-alur-kerja-operasional)
+3. [Naskah Berbicara Kata-Per-Kata & Aksi Layar Smartphone](#3-naskah-berbicara-kata-per-kata--aksi-layar-smartphone)
+   - [Langkah 0: Pembukaan & Konsep Mobile-First (00:00 - 00:50)](#langkah-0-pembukaan--konsep-mobile-first)
+   - [Langkah 1: Pendaftaran Pemasok Baru / Supplier Setup (00:50 - 02:00)](#langkah-1-pendaftaran-pemasok-baru--supplier-setup)
+   - [Langkah 2: Pendaftaran Fasilitas Gudang Baru / Warehouse Setup (02:00 - 03:10)](#langkah-2-pendaftaran-fasilitas-gudang-baru--warehouse-setup)
+   - [Langkah 3: Pendaftaran Produk Baru & Master SKU (03:10 - 04:30)](#langkah-3-pendaftaran-produk-baru--master-sku)
+   - [Langkah 4: Siklus Pengadaan (Purchase Order Lifecycle) (04:30 - 06:30)](#langkah-4-siklus-pengadaan-purchase-order-lifecycle)
+   - [Langkah 5: Pengecekan Stok Fisik di Lokasi Rak / Bin Tracking (06:30 - 07:30)](#langkah-5-pengecekan-stok-fisik-di-lokasi-rak--bin-tracking)
+   - [Langkah 6: Mutasi Transfer Antar Gudang & Pengeluaran Barang (07:30 - 08:45)](#langkah-6-mutasi-transfer-antar-gudang--pengeluaran-barang)
+   - [Langkah 7: Audit Stock Opname & Penyesuaian Selisih (08:45 - 09:45)](#langkah-7-audit-stock-opname--penyesuaian-selisih)
+   - [Langkah 8: Verifikasi Jejak Audit Mutasi (Transactions Audit Trail) (09:45 - 10:30)](#langkah-8-verifikasi-jejak-audit-mutasi)
+   - [Langkah 9: Dampak Real-Time pada Dasbor Eksekutif & Analytics (10:30 - 11:30)](#langkah-9-dampak-real-time-pada-dasbor-eksekutif--analytics)
+   - [Langkah 10: Keamanan RBAC, Arsitektur Cloud & Penutup (11:30 - 12:30)](#langkah-10-keamanan-rbac-arsitektur-cloud--penutup)
+4. [Kunci Sukses & Contekan Jawaban Ujian (Q&A Defense)](#4-kunci-sukses--contekan-jawaban-ujian)
 
 ---
 
-## 1. Persiapan Sebelum Merekam
+## 1. Setup Perekaman Smartphone & Laptop
 
-### A. Perangkat Lunak Perekam (Screen Recorder):
-- Gunakan **OBS Studio** (disarankan) atau **Windows Game Bar** (`Win + G`) atau **Loom** / **Clipchamp**.
-- Atur resolusi rekaman ke **1080p (1920x1080)** dengan frame rate 30 atau 60 fps.
-- Pastikan mikrofon jernih tanpa kebisingan (*noise suppression* aktif).
+### Di Smartphone (HP Anda):
+1. Aktifkan mode **Jangan Ganggu (Do Not Disturb)** agar notifikasi chat/telepon tidak masuk.
+2. Buka aplikasi browser (Chrome/Safari) ke alamat live: **`http://70.153.139.90`**.
+3. Pastikan sudah berada di halaman login sebelum rekaman dimulai.
+4. Aktifkan **Perekam Layar (Screen Recorder bawaan HP)** dengan opsi audio: **Mikrofon**.
 
-### B. Tab Browser & Berkas yang Harus Dibuka Sebelum Merekam:
-1. **Tab 1**: Halaman Login InvWare: **`http://70.153.139.90/login`** (atau `http://localhost:5173/login`).
-2. **Tab 2**: Repositori GitHub: **`https://github.com/Twisty-39/smart-warehouse-system`**.
-3. **Tab 3**: Berkas Arsitektur / Flowchart: Dokumen [Docs/FLOWCHARTS.md](file:///d:/FAJAR%20SIDIK/Portofolio/Smart%20Warehouse%20&%20Inventory%20Management%20System/Docs/FLOWCHARTS.md).
-4. **Tab 4 (Opsional)**: Swagger API Docs: `http://localhost:5000/swagger` (jika ingin menunjukkan endpoint REST API).
-
-### C. Kredensial Login Pengujian Cepat (Tersedia Tombol 1-Klik di Halaman Login):
-- **Super Admin**: `admin@smartwarehouse.com` | Password: `Password123!`
-- **Warehouse Manager**: `manager.jkt@smartwarehouse.com` | Password: `Password123!`
-- **Inventory Staff**: `staff.jkt1@smartwarehouse.com` | Password: `Password123!`
-- **Purchasing Officer**: `purchasing.lead@smartwarehouse.com` | Password: `Password123!`
+### Di Layar Laptop Anda:
+1. Buka dokumen ini [Docs/DEMO_PRESENTATION_SCRIPT.md](file:///d:/FAJAR%20SIDIK/Portofolio/Smart%20Warehouse%20&%20Inventory%20Management%20System/Docs/DEMO_PRESENTATION_SCRIPT.md) dalam ukuran layar penuh.
+2. Gunakan laptop sebagai **teleprompter** agar Anda bisa membaca dengan tenang, tidak grogi, dan artikulasi suara jelas.
 
 ---
 
-## 2. Timeline & Rundown Alur Demo
+## 2. Peta Alur Kerja Operasional
 
-| Menit | Modul / Halaman yang Dibuka | Fokus Demonstrasi |
-|---|---|---|
-| **00:00 - 01:15** | Halaman Depan / Login Page | Perkenalan diri, judul proyek, latar belakang masalah rantai pasok |
-| **01:15 - 02:45** | Login Page & Lupa Password | Konsep 4 Role RBAC & Demo Pemulihan Akun via 6-Digit OTP |
-| **02:45 - 04:15** | `/dashboard` (Dasbor) | 4 KPI Cards, Multi-Currency IDR/USD, Trend Mutasi, Feed Aktivitas |
-| **04:15 - 05:30** | `/products` (Katalog Produk) | Master SKU, Barcode, Kategori, Foto Produk, Ekspor Excel native |
-| **05:30 - 07:15** | `/purchase-orders` (PO Lifecycle) | Alur PO: Draft ➔ Approve ➔ Receive (Stok otomatis bertambah!) |
-| **07:15 - 08:45** | `/inventory` & `/transactions` | Lokasi Rak Bin, On-Hand vs Available, Transfer Gudang, Stock Opname |
-| **08:45 - 09:45** | `/users` (User Management) | Otorisasi RBAC 4 Level, Audit log pengguna, Route Protection |
-| **09:45 - 11:00** | GitHub & Visual Arsitektur | Clean Architecture, SQL Server 3NF, Docker Compose di Azure VM |
-| **11:00 - 11:30** | Halaman Dasbor | Kesimpulan dan salam penutup |
+Berikut adalah rantai siklus hidup barang yang akan Anda peragakan secara langsung di depan dosen:
 
----
-
-## 3. Naskah Berbicara Kata-Per-Kata & Panduan Aksi Layar
+```mermaid
+flowchart TD
+    A["1. Pemasok (/suppliers)<br>Daftarkan: PT Surya Logistik Elektronik"] --> B["2. Gudang (/warehouses)<br>Daftarkan: Hub Distribusi Bandung (GDG-BDG)"]
+    B --> C["3. Produk (/products)<br>Daftarkan: Wireless Barcode Scanner (SCN-WRL-01)"]
+    C --> D["4. Pengadaan (/purchase-orders)<br>Buat PO 50 Unit ➔ Approve ➔ Receive Barang"]
+    D --> E["5. Stok Fisik (/inventory)<br>Otomatis Masuk 50 Unit di Rak A01-R01-B01"]
+    E --> F["6. Mutasi Transfer (/inventory)<br>Transfer 10 Unit dari Bandung ke Jakarta"]
+    F --> G["7. Stock Opname (/inventory)<br>Penyesuaian Fisik Selisih 1 Unit Rusak (39 Unit)"]
+    G --> H["8. Audit Trail (/transactions)<br>Cek Rekam Jejak Otomatis: Inbound, Transfer, Opname"]
+    H --> I["9. Dasbor Real-Time (/dashboard)<br>Nilai Aset & Grafik Mutasi Ter-update Otomatis"]
+```
 
 ---
 
-### BAGIAN 1: PEMBUKAAN & LATAR BELAKANG MASALAH
-*(Estimasi: 00:00 - 01:15)*
+## 3. Naskah Berbicara Kata-Per-Kata & Aksi Layar Smartphone
 
-**[AKSI LAYAR]**:
-- Tampilkan browser pada halaman login: `http://70.153.139.90/login`.
-- Kursor berada di tengah layar, menyorot logo dan nama aplikasi **InvWare**.
+---
+
+### LANGKAH 0: PEMBUKAAN & KONSEP MOBILE-FIRST
+*(Estimasi Waktu: 00:00 - 00:50)*
+
+**[AKSI DI HP]**:
+- Tampilkan halaman login: `http://70.153.139.90/login`.
+- Kursor/sentuhan jari berada di area tengah layar menyorot logo **InvWare**.
 
 **[NASKAH SUARA]**:
-> *"Selamat pagi / siang kepada Bapak / Ibu Dosen Pembimbing dan Dosen Penguji.*
+> *"Selamat pagi / siang kepada Bapak / Ibu Dosen Pembimbing dan Penguji.*
 > 
-> *Perkenalkan, nama saya **Fajar Sidik**. Pada kesempatan kali ini, saya akan mendemonstrasikan secara menyeluruh hasil rancang bangun proyek tugas akhir / portofolio saya yang berjudul:*
+> *Perkenalkan, nama saya **Fajar Sidik**. Pada video ini, saya akan mendemonstrasikan secara langsung sistem tugas akhir / portofolio saya yang berjudul:*
 > 
 > ***InvWare — Smart Warehouse & Inventory Management System (SWIMS)***.
 > 
-> *Latar belakang dikembangkannya sistem ini berangkat dari problematika nyata dalam operasional pergudangan dan rantai pasok modern: seperti ketidaksesuaian jumlah stok fisik dengan pencatatan digital, lambatnya persetujuan dokumen pengadaan barang (Purchase Order), sulitnya pelacakan posisi rak barang, serta minimnya sistem audit jejak aktivitas staf yang rentan menimbulkan selisih inventaris.*
+> *Demonstrasi ini sengaja saya jalankan langsung dari **perangkat smartphone** yang terhubung secara live ke server cloud **Microsoft Azure** kami di alamat `http://70.153.139.90`.*
 > 
-> *InvWare hadir sebagai solusi terpadu berbasis **Fullstack Monorepo Enterprise**, yang memadukan arsitektur backend **C# ASP.NET Core 10 Web API**, basis data relasional **Microsoft SQL Server 2022**, dan antarmuka frontend modern **React 19 TypeScript** dengan sistem desain **Bento Flat UI**. Sistem ini juga telah berhasil kami deploy secara live di **Microsoft Azure Virtual Machine** menggunakan **Docker Compose**."*
+> *Tujuannya adalah membuktikan kesiapan sistem secara **Mobile-First & Responsive**, mensimulasikan penggunaan nyata oleh staf di lantai gudang (*warehouse floor*) yang bergerak aktif tanpa membawa laptop.*
+> 
+> *Pada demo ini, saya tidak hanya akan memperlihatkan menu, melainkan **mempraktikkan alur operasional bisnis secara utuh dari nol**: mulai dari mendaftarkan pemasok, gudang baru, SKU produk, siklus Purchase Order, penerimaan barang ke rak, mutasi transfer, hingga audit stock opname."*
+
+**[AKSI DI HP]**:
+- Sentuh tombol demo **"Super Admin"** di kotak bawah.
+- Form otomatis terisi `admin@smartwarehouse.com` dan `Password123!`.
+- Tekan tombol **"Masuk Sekarang"**.
+- Masuk ke halaman Dasbor (`/dashboard`).
 
 ---
 
-### BAGIAN 2: AUTENTIKASI, KEAMANAN & PEMULIHAN OTP
-*(Estimasi: 01:15 - 02:45)*
+### LANGKAH 1: PENDAFTARAN PEMASOK BARU (SUPPLIER SETUP)
+*(Estimasi Waktu: 00:50 - 02:00)*
 
-**[AKSI LAYAR]**:
-- Sorot form login dan bagian bawah bertuliskan **"PILIH AKUN DEMO"**.
-- Klik link **"Lupa kata sandi?"** menuju `/forgot-password`.
-
-**[NASKAH SUARA]**:
-> *"Kita mulai dari modul autentikasi dan keamanan sistem.*
-> 
-> *InvWare menerapkan sistem keamanan tingkat tinggi berbasis **Role-Based Access Control (RBAC)** dengan empat tingkat hak akses terpisah: yaitu **Super Admin**, **Warehouse Manager**, **Inventory Staff**, dan **Purchasing Officer**. Kata sandi pengguna diamankan menggunakan algoritma enkripsi **BCrypt** dengan salt factor 11, dan komunikasi sesi diotorisasi melalui **JWT Bearer Token**.*
-> 
-> *Selain login standar, sistem ini juga dilengkapi modul pemulihan akun cerdas menggunakan **6-Digit Cryptographic OTP**."*
-
-**[AKSI LAYAR]**:
-- Pada halaman Lupa Kata Sandi, ketik email: `admin@smartwarehouse.com`.
-- Klik tombol **"Kirim Kode OTP"**.
-- Layar berpindah ke halaman Verifikasi OTP dengan 6 kotak input PIN dan tombol bantuan demo.
-- Klik tombol **"Isi OTP Demo (123456)"** atau ketik angka 1-2-3-4-5-6 secara otomatis berpindah kotak (*auto-advance*).
-- Tunjukkan countdown timer kirim ulang 60 detik.
-- Masukkan password baru (misal `Password123!`) lalu klik **"Simpan & Masuk"**.
-- Kembali ke halaman login.
+**[AKSI DI HP]**:
+- Sentuh ikon garis tiga (**Hamburger Menu**) di pojok kiri atas untuk membuka Sidebar Drawer.
+- Pilih menu **"Pemasok"** (`/suppliers`).
+- Layar menampilkan daftar supplier yang sudah ada.
+- Tekan tombol **"+ Tambah Pemasok"**.
 
 **[NASKAH SUARA]**:
-> *"Bisa kita lihat bersama di layar, generator OTP di sisi backend menghasilkan kode kriptografis unik dengan masa berlaku 5 menit. Antarmuka input 6-digit didesain responsif dengan auto-advance dan proteksi salah input. Pengguna dapat mereset kata sandi dengan aman tanpa intervensi administrator.*
+> *"Langkah pertama dalam rantai pasok adalah mendaftarkan mitra vendor atau pemasok barang.*
 > 
-> *Sekarang, kita akan masuk menggunakan hak akses tertinggi, yaitu **Super Admin**."*
+> *Kita buka menu **Pemasok**, lalu tekan tombol **Tambah Pemasok**. Mari kita daftarkan salah satu vendor distributor resmi elektronik."*
 
-**[AKSI LAYAR]**:
-- Klik tombol **"Super Admin"** pada kotak Akun Demo (otomatis mengisi `admin@smartwarehouse.com` dan `Password123!`).
-- Klik tombol **"Masuk Sekarang"**.
-- Sistem berhasil login dan diarahkan ke `/dashboard`.
+**[AKSI DI HP]**:
+- Masukkan data pada formulir:
+  - **Kode Pemasok**: `SUP-SLE-01`
+  - **Nama Perusahaan**: `PT Surya Logistik Elektronik`
+  - **Nama Kontak**: `Bapak Hendra Gunawan`
+  - **Alamat Email**: `hendra@suryalogistik.co.id`
+  - **Nomor Telepon**: `081122334455`
+  - **Alamat**: `Kawasan Industri Pulogadung Blok B No. 12, Jakarta Timur`
+- Tekan tombol **"Simpan Pemasok"**.
+- Notifikasi toast hijau muncul: *"Pemasok berhasil ditambahkan"*.
+- Tunjukkan bahwa `PT Surya Logistik Elektronik` sudah langsung masuk di baris teratas tabel.
+
+**[NASKAH SUARA]**:
+> *"Bisa kita lihat, pemasok **PT Surya Logistik Elektronik** telah sukses terdaftar di basis data SQL Server dengan status Aktif. Vendor ini yang nantinya akan menjadi pemasok resmi untuk pengadaan barang kita."*
 
 ---
 
-### BAGIAN 3: DASBOR EKSEKUTIF & ANALITIK REAL-TIME
-*(Estimasi: 02:45 - 04:15)*
+### LANGKAH 2: PENDAFTARAN FASILITAS GUDANG BARU (WAREHOUSE SETUP)
+*(Estimasi Waktu: 02:00 - 03:10)*
 
-**[AKSI LAYAR]**:
-- Layar menampilkan **DashboardPage**.
-- Arahkan kursor perlahan ke **4 Kartu Bento KPI Utama**.
-
-**[NASKAH SUARA]**:
-> *"Setelah login, pengguna langsung disambut oleh Dasbor Operasional Eksekutif berkonsep **Bento Grid**.*
-> 
-> *Di bagian atas, terdapat empat metrik utama yang dikalkulasi secara real-time dari database:*
-> 1. *Pertama, **Total Nilai Aset Inventaris** yang merefleksikan seluruh valuasi stok di gudang.*
-> 2. *Kedua, **Peringatan Stok Menipis (Low Stock Alert)**, yang mendeteksi otomatis SKU barang yang berada di bawah safety stock.*
-> 3. *Ketiga, **Total Transaksi Mutasi Logistik**, baik barang masuk maupun keluar.*
-> 4. *Dan keempat, **Utilisasi Kapasitas Gudang**, menghitung persentase ruang fisik yang terpakai."*
-
-**[AKSI LAYAR]**:
-- Arahkan kursor ke tombol **Multi-Currency Switcher** (IDR ⇄ USD) di kanan atas.
-- Klik tombol **"USD ($)"**, lihat angka nilai aset berubah dari Rupiah menjadi Dolar secara mulus.
-- Klik kembali ke **"IDR (Rp)"**.
-- Gulir layar ke bawah menuju grafik tren mutasi.
-- Klik tab filter waktu: **"3 Bulan"**, **"6 Bulan"**, **"12 Bulan"**.
-- Sorot tabel **Fast Moving Items** dan log **Aktivitas Terkini**.
+**[AKSI DI HP]**:
+- Buka Hamburger Menu, pilih menu **"Gudang"** (`/warehouses`).
+- Layar menampilkan daftar fasilitas gudang (Jakarta, Surabaya, Cikarang).
+- Tekan tombol **"+ Tambah Gudang"**.
 
 **[NASKAH SUARA]**:
-> *"Sistem ini juga dilengkapi fitur **Multi-Currency Switcher**. Cukup dengan satu klik, nilai aset dikonversi secara instan antara Rupiah (IDR) dan US Dollar (USD) menggunakan rate kurs dinamis.*
+> *"Langkah kedua, perusahaan membutuhkan fasilitas penyimpanan fisik.*
 > 
-> *Di bawahnya, terdapat **Grafik Visual Tren Mutasi Barang**, membandingkan volume Barang Masuk (Inbound) dengan Barang Keluar (Outbound) yang dapat difilter berdasarkan rentang 3 bulan, 6 bulan, hingga 1 tahun.*
-> 
-> *Di samping grafik, terdapat tabel **Fast Moving Items** untuk mengetahui produk terlaris, serta **Feed Aktivitas Terkini** yang mencatat audit trail setiap tindakan staf di gudang."*
+> *InvWare mendukung arsitektur multi-gudang (*Multi-Facility Network*). Sekarang kita buka menu **Gudang**, lalu tekan **Tambah Gudang** untuk memperluas jaringan distribusi kita ke kota Bandung."*
+
+**[AKSI DI HP]**:
+- Masukkan data pada formulir modal:
+  - **Kode Gudang**: `GDG-BDG`
+  - **Nama Gudang**: `Hub Distribusi Bandung Timur`
+  - **Kota**: `Bandung`
+  - **Kapasitas (m²)**: `3500`
+  - **Alamat**: `Jl. Soekarno Hatta No. 789, Gedebage, Bandung`
+- Tekan tombol **"Simpan Gudang"**.
+- Toast hijau muncul: *"Gudang berhasil ditambahkan"*.
+- Geser tabel ke samping (horizontal touch scroll) untuk memperlihatkan kapasitas 3.500 m² dan status aktif.
+
+**[NASKAH SUARA]**:
+> *"Fasilitas **Hub Distribusi Bandung Timur** dengan kode `GDG-BDG` kini telah aktif terdaftar dalam sistem. Gudang ini yang akan menjadi tujuan penerimaan barang pengadaan kita."*
 
 ---
 
-### BAGIAN 4: MANAJEMEN MASTER DATA & KATALOG SKU
-*(Estimasi: 04:15 - 05:30)*
+### LANGKAH 3: PENDAFTARAN PRODUK BARU & MASTER SKU
+*(Estimasi Waktu: 03:10 - 04:30)*
 
-**[AKSI LAYAR]**:
-- Klik menu sidebar **"Produk"** menuju `/products`.
-- Tampilkan tabel katalog produk yang rapi dengan pagination, status badge, dan thumbnail gambar.
-- Ketik kata kunci di kolom pencarian (misal: `"Kabel"` atau `"Router"`).
-- Filter berdasarkan Kategori (misal: `"Elektronik"`).
+**[AKSI DI HP]**:
+- Buka Hamburger Menu, pilih menu **"Produk"** (`/products`).
+- Tekan tombol **"+ Tambah Produk"**.
 
 **[NASKAH SUARA]**:
-> *"Kita beralih ke modul **Katalog Produk & Master Data SKU**.*
+> *"Langkah ketiga adalah membuat master data produk atau SKU barang yang akan diperjualbelikan atau disimpan.*
 > 
-> *Modul ini mengelola seluruh informasi produk secara terpusat: mulai dari kode SKU unik, nomor Barcode, klasifikasi Kategori, satuan unit, harga beli, harga jual, hingga batas minimum dan maksimum stok.*
-> 
-> *Pencarian data didukung oleh mekanisme *debounce query* di sisi server, memungkinkan pencarian instan berdasarkan nama, barcode, maupun SKU."*
+> *Kita masuk ke menu **Produk** lalu tekan **Tambah Produk**. Kita akan daftarkan satu unit perangkat keras pergudangan baru."*
 
-**[AKSI LAYAR]**:
-- Klik tombol **"Tambah Produk"** (Modal muncul).
-- Tunjukkan formulir input yang bersih, termasuk input file gambar produk dengan *live preview*.
-- Tutup modal.
-- Klik tombol **"Ekspor Excel"** di kanan atas tabel.
-- Berkas `.xlsx` langsung terdownload secara instan ke laptop.
+**[AKSI DI HP]**:
+- Masukkan data pada formulir modal:
+  - **Kode SKU**: `SCN-WRL-01`
+  - **Nama Produk**: `Wireless Industrial Barcode Scanner`
+  - **Barcode**: `8991234567890`
+  - **Kategori**: Pilih `Elektronik`
+  - **Satuan (Unit)**: `Unit`
+  - **Harga Modal (Beli)**: `450000`
+  - **Harga Jual**: `750000`
+  - **Min. Stok (Safety Stock)**: `10`
+  - **Max. Stok**: `200`
+  - **Deskripsi**: `Pemindai barcode nirkabel tahan benturan IP65 untuk operasional picking gudang.`
+- Tekan tombol **"Simpan Produk"**.
+- Toast hijau muncul: *"Produk berhasil ditambahkan"*.
+- Ketik `"Barcode Scanner"` pada kotak pencarian di tabel. Produk langsung terfilter.
 
 **[NASKAH SUARA]**:
-> *"Setiap produk dapat dilengkapi dengan unggahan foto fisik barang yang disimpan dan disajikan secara terisolasi melalui Nginx reverse proxy.*
+> *"Produk **Wireless Industrial Barcode Scanner** dengan SKU `SCN-WRL-01` telah berhasil kita buat.*
 > 
-> *Selain itu, untuk keperluan pelaporan manajerial, seluruh tabel di InvWare dilengkapi fitur **Ekspor Native Excel (.xlsx)** berbasis SheetJS dengan format auto-width kolom yang rapi dan siap cetak."*
+> *Perhatikan bahwa saat ini, saldo fisik produk ini di gudang masih **0 unit**, karena kita belum melakukan pengadaan fisik barang. Sekarang mari kita lakukan transaksi pengadaan resmi melalui Purchase Order."*
 
 ---
 
-### BAGIAN 5: SIKLUS PENGADAAN (PURCHASE ORDER LIFECYCLE)
-*(Estimasi: 05:30 - 07:15)*
+### LANGKAH 4: SIKLUS PENGADAAN (PURCHASE ORDER LIFECYCLE)
+*(Estimasi Waktu: 04:30 - 06:30 — **BAGIAN PALING KRUSIAL**)*
 
-**[AKSI LAYAR]**:
-- Klik menu sidebar **"Purchase Orders"** menuju `/purchase-orders`.
-- Tampilkan tabel daftar PO beserta filter status (`DRAFT`, `PENDING`, `APPROVED`, `RECEIVED`).
-
-**[NASKAH SUARA]**:
-> *"Sekarang kita masuk ke modul paling krusial dalam rantai pasok, yaitu **Purchase Order Lifecycle (Pengadaan Barang)**.*
-> 
-> *Sistem InvWare mendisiplinkan alur pengadaan barang dengan siklus status bertahap:*
-> *Dari **DRAFT** dibuat oleh Purchasing Officer ➔ diajukan menjadi **PENDING** ➔ ditinjau dan di-**APPROVED** oleh Warehouse Manager ➔ hingga status akhir **RECEIVED** saat barang fisik tiba di gudang.*
-> 
-> *Mari kita perhatikan fitur otomatisasi paling penting di sini:"*
-
-**[AKSI LAYAR]**:
-- Buka detail salah satu PO yang berstatus **APPROVED** (misal PO-2026-003).
-- Tunjukkan nama vendor supplier, gudang tujuan, dan rincian kuantitas item.
-- Klik tombol **"Terima Barang (Receive)"**.
-- Konfirmasi penerimaan barang. Status PO berubah menjadi **RECEIVED**.
+**[AKSI DI HP]**:
+- Buka Hamburger Menu, pilih menu **"Purchase Orders"** (`/purchase-orders`).
+- Tekan tombol **"+ Buat PO Baru"**.
 
 **[NASKAH SUARA]**:
-> *"Ketika dokumen PO diubah statusnya menjadi **RECEIVED**, backend ASP.NET Core mengeksekusi *database transaction* secara atomik:*
-> 1. *Pertama, stok fisik produk secara otomatis bertambah di gudang tujuan.*
-> 2. *Kedua, sistem secara otomatis menerbitkan dokumen transaksi **INBOUND** lengkap dengan nomor referensi PO dan nama staf penerima.*
+> *"Sekarang kita masuk ke alur inti pengadaan barang. Sistem InvWare mengontrol alur pengadaan dengan siklus hidup dokumen berjenjang:*
+> *Dari status **DRAFT** ➔ diajukan **PENDING** ➔ disetujui **APPROVED** ➔ hingga barang tiba dan berstatus **RECEIVED**.*
 > 
-> *Dengan demikian, tidak ada lagi proses manual penambahan stok ganda atau risiko manipulasi data barang masuk."*
+> *Mari kita buat Purchase Order baru untuk produk scanner tadi kepada vendor yang baru kita daftarkan."*
+
+**[AKSI DI HP]**:
+- Pada modal Buat PO:
+  - **Pilih Pemasok**: Pilih `PT Surya Logistik Elektronik`.
+  - **Tanggal Perkiraan Tiba**: Pilih tanggal beberapa hari ke depan (misal: akhir bulan).
+  - **Catatan**: `Pengadaan batch pertama untuk fasilitas Bandung`.
+  - Pada bagian Item PO, tekan tombol **"+ Tambah Item"**:
+    - **Pilih Produk**: Pilih `Wireless Industrial Barcode Scanner (SCN-WRL-01)`.
+    - **Kuantitas**: Isi `50`.
+    - **Harga Satuan**: Terisi otomatis `450000` (Total kalkulasi otomatis: Rp 22.500.000).
+- Tekan tombol **"Buat Purchase Order"**.
+- Toast hijau muncul: *"Purchase Order berhasil dibuat!"*.
+- Tunjukkan PO baru muncul di tabel dengan status **`PENDING`** atau **`DRAFT`**.
+
+**[NASKAH SUARA]**:
+> *"Dokumen PO telah diterbitkan dengan nomor referensi unik sistem. Total nilai pengadaan adalah Rp 22.500.000.*
+> 
+> *Sebagai manajer, kita akan menyetujui dokumen ini dengan menekan tombol aksi **Setujui (Approve)**."*
+
+**[AKSI DI HP]**:
+- Sentuh baris PO tersebut atau tekan tombol ikon centang/status untuk mengubah statusnya menjadi **APPROVED**.
+- Status PO berubah menjadi badge biru: **`APPROVED`**.
+
+**[NASKAH SUARA]**:
+> *"Status dokumen kini telah menjadi **APPROVED**. Sekarang, kita simulasikan saat truk pengiriman tiba di fasilitas gudang dan staf gudang memeriksa fisik barang.*
+> 
+> *Kita tekan tombol **Terima Barang (Receive)**. Di sinilah letak keunggulan otomatisasi sistem InvWare."*
+
+**[AKSI DI HP]**:
+- Tekan tombol aksi **"Terima Barang (Receive)"** pada PO tersebut.
+- Modal konfirmasi penerimaan muncul:
+  - **Gudang Tujuan**: Pilih `Hub Distribusi Bandung Timur` (gudang yang kita buat tadi).
+  - **Lokasi Rak (Bin Location)**: Ketik `A01-R01-B01`.
+  - **Catatan Penerimaan**: `Barang 50 unit diterima lengkap dalam kondisi prima`.
+- Tekan tombol **"Konfirmasi Penerimaan Barang"**.
+- Status PO berubah menjadi badge hijau: **`RECEIVED`**.
+
+**[NASKAH SUARA]**:
+> *"Perhatikan Bapak/Ibu Dosen, saat tombol konfirmasi penerimaan ditekan:*
+> *Backend ASP.NET Core mengeksekusi transaksi database secara atomik:*
+> 1. *Pertama, status PO ditutup menjadi **RECEIVED**.*
+> 2. *Kedua, kuantitas 50 unit secara otomatis masuk dan menambah saldo stok fisik di **Hub Distribusi Bandung Timur** pada koordinat rak **A01-R01-B01**.*
+> 3. *Ketiga, sistem secara otomatis menerbitkan dokumen transaksi **INBOUND** lengkap dengan nomor referensi PO.*
+> 
+> *Mari kita buktikan secara langsung di modul Inventaris!"*
 
 ---
 
-### BAGIAN 6: TATA KELOLA STOK FISIK & AUDIT MUTASI
-*(Estimasi: 07:15 - 08:45)*
+### LANGKAH 5: PENGECEKAN STOK FISIK DI LOKASI RAK (BIN TRACKING)
+*(Estimasi Waktu: 06:30 - 07:30)*
 
-**[AKSI LAYAR]**:
-- Klik menu sidebar **"Inventaris & Stok"** menuju `/inventory`.
-- Tampilkan dropdown pemilihan fasilitas gudang (Jakarta Main Hub, Surabaya, Cikarang).
-- Sorot kolom: **On Hand**, **Allocated**, **Available**, dan **Lokasi Rak (Bin)**.
-
-**[NASKAH SUARA]**:
-> *"Berikutnya adalah modul **Inventaris & Pelacakan Rak Fisik**.*
-> 
-> *Sistem ini mendukung pengelolaan multi-fasilitas gudang. Perhatikan bagaimana InvWare memisahkan tiga indikator stok:*
-> - ***On Hand Quantity***: *Jumlah total fisik barang yang berada di gudang.*
-> - ***Allocated Quantity***: *Jumlah barang yang sudah dipesan / dialokasikan untuk pengiriman keluar.*
-> - ***Available Quantity***: *Jumlah riil yang benar-benar bebas untuk ditransaksikan.*
-> 
-> *Setiap item juga dipetakan hingga ke koordinat rak fisik, seperti kode bin **A01-R02-B03**, sehingga memudahkan staf picker di lapangan."*
-
-**[AKSI LAYAR]**:
-- Klik tombol aksi **"Penyesuaian Stok (Adjustment / Stock Opname)"**.
-- Tunjukkan modal penyesuaian stok jika ditemukan selisih fisik saat opname berkala.
-- Tutup modal, lalu pindah ke menu **"Riwayat Transaksi"** (`/transactions`).
-- Tunjukkan log mutasi lengkap dengan filter tipe: `INBOUND`, `OUTBOUND`, `TRANSFER`, dan `ADJUSTMENT`.
+**[AKSI DI HP]**:
+- Buka Hamburger Menu, pilih menu **"Inventaris & Stok"** (`/inventory`).
+- Pada filter gudang di bagian atas, pilih: **`Hub Distribusi Bandung Timur`**.
+- Geser layar ke baris produk **`Wireless Industrial Barcode Scanner`**.
 
 **[NASKAH SUARA]**:
-> *"Jika terjadi selisih stok saat audit berkala, staf dapat melakukan **Stock Opname Adjustment** dengan mencantumkan alasan selisih.*
+> *"Kita buka modul **Inventaris & Pelacakan Rak Fisik**, lalu filter fasilitas ke **Hub Distribusi Bandung Timur**.*
 > 
-> *Seluruh pergerakan barang, baik Inbound, Outbound pengiriman pesanan, maupun Transfer antar fasilitas gudang, tercatat permanen di halaman **Riwayat Transaksi** ini sebagai *immutable audit log* yang transparan dan akuntabel."*
+> *Bisa kita lihat bersama di layar:*
+> - *Produk scanner kita sekarang tercatat memiliki kuantitas **On Hand: 50 unit**.*
+> - *Status ketersediaan **Available: 50 unit**.*
+> - *Dan posisi barang terpetakan secara presisi pada kode rak **A01-R01-B01**.*
+> 
+> *Status badge stok berwarna hijau menandakan persediaan aman di atas ambang batas minimum. Staf picker di gudang dapat langsung menemukan posisi fisik barang ini dengan akurat."*
 
 ---
 
-### BAGIAN 7: MANAJEMEN PENGGUNA & OTORISASI RBAC
-*(Estimasi: 08:45 - 09:45)*
+### LANGKAH 6: MUTASI TRANSFER ANTAR GUDANG & PENGELUARAN BARANG
+*(Estimasi Waktu: 07:30 - 08:45)*
 
-**[AKSI LAYAR]**:
-- Klik menu sidebar **"Pengguna"** menuju `/users`.
-- Tampilkan daftar 20 pengguna sistem beserta role dan departemennya.
-- Tunjukkan bahwa menu ini hanya muncul untuk role **Super Admin**.
+**[AKSI DI HP]**:
+- Pada baris produk scanner tersebut, tekan tombol aksi **"Transfer Gudang"** (ikon panah bolak-balik).
+- Modal Transfer Antar Fasilitas muncul:
+  - **Gudang Asal**: Terkunci `Hub Distribusi Bandung Timur`.
+  - **Gudang Tujuan**: Pilih `Jakarta Main Distribution Hub`.
+  - **Kuantitas Ditransfer**: Isi `10`.
+  - **Lokasi Rak Tujuan**: Isi `B02-R01-B01`.
+  - **Alasan**: `Pemenuhan pesanan cabang Jakarta`.
+- Tekan tombol **"Kirim Transfer Stok"**.
+- Toast hijau muncul: *"Transfer stok berhasil diproses"*.
 
 **[NASKAH SUARA]**:
-> *"Pada modul **Manajemen Pengguna**, Super Admin memiliki wewenang untuk menambah akun baru, menonaktifkan akun staf yang sudah tidak bertugas, serta menetapkan Role RBAC.*
+> *"Sekarang kita uji fitur logistik mutasi: **Inter-Warehouse Transfer**.*
 > 
-> *Frontend mengimplementasikan **Route Guards** yang ketat. Jika staf gudang biasa atau purchasing mencoba mengakses URL `/users` secara sengaja melalui browser bar, sistem secara otomatis mencegat dan melempar halaman **403 Forbidden** atau mengarahkannya kembali ke Dasbor."*
+> *Kita transfer sebanyak **10 unit** dari gudang Bandung ke gudang utama Jakarta.*
+> 
+> *Perhatikan: stok di Bandung sekarang otomatis berkurang dari 50 menjadi **40 unit**.*
+> 
+> *Dan jika kita ubah filter gudang ke **Jakarta Main Distribution Hub**, produk scanner tersebut sudah bertambah sebanyak **10 unit** pada koordinat rak B02-R01-B01 secara instan tanpa ada selisih kuantitas."*
 
 ---
 
-### BAGIAN 8: ARSITEKTUR SISTEM, DATABASE & CLOUD DEPLOYMENT
-*(Estimasi: 09:45 - 11:00)*
+### LANGKAH 7: AUDIT STOCK OPNAME & PENYESUAIAN SELISIH
+*(Estimasi Waktu: 08:45 - 09:45)*
 
-**[AKSI LAYAR]**:
-- Pindah ke Tab Browser 2: Repositori GitHub (`https://github.com/Twisty-39/smart-warehouse-system`).
-- Tunjukkan badge header dan struktur direktori.
-- Pindah ke Tab Browser 3: Dokumen Flowchart Terintegrasi [Docs/FLOWCHARTS.md](file:///d:/FAJAR%20SIDIK/Portofolio/Smart%20Warehouse%20&%20Inventory%20Management%20System/Docs/FLOWCHARTS.md) atau buka diagram Mermaid.
+**[AKSI DI HP]**:
+- Kembalikan filter gudang ke **Hub Distribusi Bandung Timur** (stok saat ini: 40 unit).
+- Tekan tombol aksi **"Penyesuaian (Adjustment)"** (ikon slider) pada produk scanner.
+- Modal Stock Opname muncul:
+  - **Kuantitas Fisik Riil Terhitung**: Ubah angka dari 40 menjadi `39`.
+  - **Alasan Penyesuaian**: `Selisih opname fisik: 1 unit cacat kemasan saat handling`.
+- Tekan tombol **"Simpan Penyesuaian"**.
+- Toast hijau muncul: *"Penyesuaian stok berhasil disimpan"*.
+- Angka On Hand di tabel berubah menjadi **39 unit**.
 
 **[NASKAH SUARA]**:
-> *"Terakhir, mari kita tinjau dari sudut pandang arsitektur teknis perangkat lunak dan infrastruktur cloud.*
+> *"Dalam operasional nyata pergudangan, selalu ada kemungkinan terjadi selisih fisik saat stock opname berkala (misal barang rusak saat handling forklift).*
 > 
-> *Dari sisi rekayasa perangkat lunak:*
-> 1. *Backend dibangun menggunakan **C# ASP.NET Core 10 Web API** dengan prinsip **Clean Architecture & Separation of Concerns**, memisahkan Controllers, Services, DTOs, dan Middleware error handling global.*
-> 2. *Basis data dirancang memenuhi kaidah normalisasi **Third Normal Form (3NF)** pada **Microsoft SQL Server 2022**, terdiri dari 11 entitas relasional dengan constraint Foreign Key dan Indexing yang optimal.*
-> 3. *Untuk arsitektur deployment, sistem ini diorkestrasi menggunakan **Docker Compose** dan telah live aktif di **Microsoft Azure Virtual Machine (Ubuntu 24.04 LTS)** pada IP publik **70.153.139.90**.*
+> *InvWare menyediakan modul **Stock Opname Adjustment** yang akuntabel. Kita sesuaikan kuantitas riil menjadi **39 unit** dengan menyertakan alasan resmi.*
 > 
-> *Nginx bertindak sebagai **Reverse Proxy** di port 80, meneruskan traffic API dan static uploads ke container backend secara aman tanpa terkena batasan CORS."*
+> *Saldo langsung ter-update menjadi 39 unit, dan sistem secara otomatis mencatat selisih -1 unit ini ke dalam audit trail."*
 
 ---
 
-### BAGIAN 9: PENUTUP & KESIMPULAN
-*(Estimasi: 11:00 - 11:30)*
+### LANGKAH 8: VERIFIKASI JEJAK AUDIT MUTASI (TRANSACTIONS AUDIT TRAIL)
+*(Estimasi Waktu: 09:45 - 10:30)*
 
-**[AKSI LAYAR]**:
-- Kembali ke Tab 1 (Dasbor InvWare `http://70.153.139.90/dashboard`).
-- Tampilkan tampilan dasbor secara utuh.
+**[AKSI DI HP]**:
+- Buka Hamburger Menu, pilih menu **"Riwayat Transaksi"** (`/transactions`).
+- Layar menampilkan tabel audit log transaksi logistik.
 
 **[NASKAH SUARA]**:
-> *"Sebagai kesimpulan, sistem **InvWare (Smart Warehouse & Inventory Management System)** ini telah berhasil memenuhi seluruh spesifikasi fungsional dan non-fungsional sistem informasi pergudangan modern skala enterprise:*
-> - *Mulai dari keamanan RBAC 4 level,*
-> - *Otomatisasi pengadaan barang ke stok,*
-> - *Pelacakan koordinat rak gudang fisik,*
-> - *Hingga kesiapan deployment di cloud Azure.*
+> *"Seluruh rangkaian tindakan fisik yang baru saja kita lakukan tercatat secara permanen tanpa celah manipulasi di menu **Riwayat Transaksi** ini.*
 > 
-> *Demikian demonstrasi sistem yang dapat saya sampaikan. Terima kasih banyak atas perhatian Bapak / Ibu Dosen. Saya sangat terbuka untuk sesi tanya jawab, saran, serta masukan demi penyempurnaan sistem ini ke depannya.*
+> *Bisa kita lihat urutan jejak auditnya:*
+> 1. *Transaksi **INBOUND**: +50 unit dari penerimaan PO.*
+> 2. *Transaksi **TRANSFER**: -10 unit pengiriman dari Bandung ke Jakarta.*
+> 3. *Transaksi **ADJUSTMENT**: -1 unit hasil audit stock opname dengan catatan alasan resmi.*
 > 
-> *Wassalamu'alaikum Warahmatullahi Wabarakatuh / Selamat siang."*
+> *Setiap transaksi dilengkapi stempel waktu (*timestamp*), referensi dokumen, dan identitas staf pelaksana. Data ini bersifat *immutable* untuk memenuhi standar audit ISO dan kepatuhan pergudangan."*
 
 ---
 
-## 4. Antisipasi Pertanyaan Dosen Penguji
+### LANGKAH 9: DAMPAK REAL-TIME PADA DASBOR EKSEKUTIF & ANALYTICS
+*(Estimasi Waktu: 10:30 - 11:30)*
 
-Berikut adalah daftar pertanyaan teknis yang paling sering diajukan oleh dosen penguji beserta jawaban cerdas dan tepat yang disiapkan untuk Anda:
+**[AKSI DI HP]**:
+- Buka Hamburger Menu, kembali ke menu **"Dasbor"** (`/dashboard`).
+- Sorot 4 kartu KPI di bagian atas.
+- Tekan tombol **Multi-Currency Switcher (USD / IDR)** di pojok kanan atas.
+- Gulir ke bawah melihat grafik tren mutasi dan feed aktivitas terkini.
 
-### Q1: *"Bagaimana sistem mencegah kesalahan data atau selisih stok jika ada dua transaksi bersamaan (Concurrency Control)?"*
+**[NASKAH SUARA]**:
+> *"Sekarang mari kita kembali ke Dasbor Eksekutif.*
+> 
+> *Perhatikan bagaimana seluruh transaksi nyata yang kita lakukan barusan langsung berdampak secara real-time pada metrik eksekutif:*
+> 1. *Kartu **Total Nilai Aset Inventaris** langsung bertambah merefleksikan nilai aset 39 unit scanner baru ditambah barang lainnya.*
+> 2. *Kita coba tombol **Currency Switcher**: nilai aset puluhan juta ini dapat langsung dikonversi secara presisi ke dalam mata uang US Dollar ($).*
+> 3. *Grafik **Tren Mutasi** otomatis memperbarui bar Inbound dan Outbound pada periode berjalan.*
+> 4. *Dan pada daftar **Aktivitas Terkini**, seluruh aksi kita (PO received, transfer, dan opname) telah terpampang jelas."*
+
+---
+
+### LANGKAH 10: KEAMANAN RBAC, ARSITEKTUR CLOUD & PENUTUP
+*(Estimasi Waktu: 11:30 - 12:30)*
+
+**[AKSI DI HP]**:
+- Buka Hamburger Menu, sentuh menu **"Pengguna"** (`/users`). Tunjukkan daftar 20 staf.
+- Buka menu **Profil** (`/profile`) atau kembali ke Dasbor.
+
+**[NASKAH SUARA]**:
+> *"Sebagai penutup, sistem InvWare diproteksi dengan arsitektur rekayasa perangkat lunak enterprise:*
+> - *Keamanan **Role-Based Access Control (RBAC)** membatasi akses sensitif seperti menu Pengguna ini hanya untuk Super Admin.*
+> - *Backend dibangun dengan **C# ASP.NET Core 10 Web API** berprinsip **Clean Architecture**, database relasional **Microsoft SQL Server 2022** dalam normalisasi **3NF**, serta frontend **React 19 Vite**.*
+> - *Dan yang paling membanggakan, seluruh sistem ini telah aktif berjalan secara kontainerisasi menggunakan **Docker Compose** di **Microsoft Azure Virtual Machine (Ubuntu 24.04 LTS)** pada IP publik `http://70.153.139.90` yang kita akses secara mulus di smartphone ini.*
+> 
+> *Demikian pembuktian alur operasional InvWare dari hulu ke hilir. Terima kasih banyak atas perhatian Bapak / Ibu Dosen Pembimbing dan Penguji. Saya siap untuk sesi diskusi dan tanya jawab. Terima kasih."*
+
+---
+
+## 4. Kunci Sukses & Contekan Jawaban Ujian (Q&A Defense)
+
+Dosen penguji biasanya akan menguji pemahaman Anda setelah melihat demo operasional ini. Berikut adalah contekan jawaban cerdas:
+
+### Pertanyaan 1: *"Bagaimana sistem menjamin stok tidak menjadi minus saat ada transfer atau pengeluaran barang?"*
 > **Jawaban Anda**:
-> *"Sistem menerapkan dua lapis proteksi:*
-> 1. *Di sisi database SQL Server, perubahan stok dieksekusi di dalam **Database Transaction (ACID Compliance)** menggunakan Entity Framework Core. Jika salah satu step gagal (misal kuantitas melebihi stok yang ada), seluruh transaksi akan di-*rollback* otomatis.*
-> 2. *Di sisi bisnis logic, sistem memeriksa ketersediaan `Available Quantity` sebelum kuantitas dikurangi, sehingga mencegah kondisi stok minus atau *race condition*."*
+> *"Di backend ASP.NET Core, kami menerapkan validasi bertingkat:*
+> *Sebelum kuantitas dikurangi, sistem mengecek saldo `Available Quantity = QuantityOnHand - AllocatedQuantity`. Jika kuantitas transfer melebihi stok yang tersedia, sistem secara tegas melempar HTTP 400 Bad Request dengan pesan error valid, dan seluruh proses dibungkus dalam **Database Transaction (ACID)** sehingga tidak akan pernah terjadi kondisi stok negatif ataupun data menggantung."*
 
-### Q2: *"Bagaimana arsitektur keamanannya? Bagaimana sistem memastikan token JWT tidak dipalsukan?"*
+### Pertanyaan 2: *"Mengapa saat PO di-Receive, stok langsung bertambah tanpa perlu input manual lagi di modul inventaris?"*
 > **Jawaban Anda**:
-> *"Setiap request ke backend dilindungi oleh **JWT Bearer Token** yang ditandatangani menggunakan algoritma enkripsi **HMAC-SHA256** dengan secret key rahasia di server. Di dalam payload token tersimpan `ClaimTypes.Role` (misalnya `ROLE_ADMIN`, `ROLE_MANAGER`).*
-> 
-> *Setiap Controller backend didekorasi dengan atribut `[Authorize(Roles = "...")]`. Meskipun seorang penyerang mencoba memodifikasi payload di browser, tanda tangan kriptografis token akan menjadi tidak valid dan ditolak oleh middleware autentikasi dengan status 401/403."*
+> *"Ini adalah inti dari **Enterprise Resource Planning (ERP Integration)** yang kami terapkan. Di dunia logistik nyata, menginput ulang barang yang sudah ada di dokumen PO sangat rawan *human error* dan *fraud* (manipulasi data).*
+> *Oleh karena itu, saat staf menekan 'Receive', backend membaca relasi `PurchaseOrderItems`, lalu secara otomatis meng-query atau membuat record di tabel `InventoryStocks` dan menerbitkan `StockTransaction` bertipe `INBOUND` dalam satu kali eksekusi atomic transaction."*
 
-### Q3: *"Mengapa memilih arsitektur Docker Compose dan Reverse Proxy Nginx untuk deployment di Azure VM?"*
+### Pertanyaan 3: *"Mengapa memilih SQL Server 2022 dibanding database NoSQL seperti MongoDB?"*
 > **Jawaban Anda**:
-> *"Ada tiga alasan utama:*
-> 1. ***Environment Parity**: Dengan container Docker, seluruh stack (SQL Server 2022, .NET 10 runtime, dan Node/Nginx) dijamin berjalan identik di server Azure maupun di komputer lokal tanpa kendala perbedaan versi SDK.*
-> 2. ***Keamanan & Eliminasi CORS**: Nginx bertindak sebagai gerbang tunggal di port 80. Trafik web statis React dilayani langsung oleh Nginx, sedangkan request `/api/` diteruskan secara internal ke container backend di port 5000 melalui jaringan bridge internal Docker. Ini sepenuhnya menghilangkan error CORS.*
-> 3. ***Skalabilitas & Kemudahan Maintenance**: Update versi terbaru di server hanya memerlukan perintah `git pull` dan `docker compose up -d --build` tanpa mengganggu dependensi sistem operasi induk Ubuntu."*
+> *"Karena sistem manajemen inventaris dan pergudangan membutuhkan konsistensi data yang mutlak (**Strong Consistency & ACID Guarantees**).*
+> *Relasi antara User, PO, Supplier, Lokasi Rak, dan Mutasi Transaksi memiliki dependensi relasional yang ketat dengan integritas referensial (Foreign Keys). SQL Server menjamin tidak ada data yatim (orphaned records) dan sangat optimal untuk agregasi laporan keuangan nilai aset."*
 
-### Q4: *"Apakah database sudah dinormalisasi dan mendukung relasi yang kompleks?"*
+### Pertanyaan 4: *"Bagaimana aplikasi di HP bisa begitu cepat mengakses server di Azure tanpa ada masalah CORS?"*
 > **Jawaban Anda**:
-> *"Sudah, basis data telah dinormalisasi hingga **Third Normal Form (3NF)** untuk menghindari redundansi data dan anomali pembaruan.*
-> *Terdapat 11 entitas relasional utama, antara lain tabel `Users`, `Roles`, `UserProfiles`, `Categories`, `Products`, `Warehouses`, `InventoryStocks`, `StockTransactions`, `Suppliers`, `PurchaseOrders`, dan `PurchaseOrderItems`. Hubungan relasi antar tabel diproteksi dengan foreign key constraints dan cascading rule yang terstruktur."*
+> *"Kami menggunakan **Nginx Reverse Proxy** di port 80 pada Azure VM. Nginx melayani berkas statis React di root, dan setiap request `/api/` diteruskan secara internal ke container backend Kestrel di port 5000 melalui Docker bridge network.*
+> *Karena browser HP berkomunikasi ke satu origin yang sama (same-origin policy), maka tidak ada hambatan CORS sama sekali dan latency transmisi data menjadi sangat rendah."*
